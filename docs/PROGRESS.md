@@ -49,8 +49,8 @@
 
 ## Current position
 - Phase: 2 — Functional spec  Step/sprint: sprint 1, slice **S-001** (mlx-video spike) in progress
-- Done in S-001: `spikes/` environment pinned (D-016); Wan2.1 1.3B and Wan2.2 TI2V-5B downloaded, converted (4-bit, 8-bit, bf16) and rendered, T2V and I2V; the 23–29 GB memory peak explained and removed (T5 loading + tiling → 8.6–15.6 GB, D-018). Results in docs/research/benchmarks.md. Models are in `~/Library/Caches/MacWan-spikes/` (≈ 131 GB before A14B).
-- Next action: finish S-001 from "Still to do in S-001" in docs/research/benchmarks.md — the Wan2.2 T2V A14B download (126 GB, revision c8c270b…) was started on 2026-10-06 into `~/Library/Caches/MacWan-spikes/Wan2.2-T2V-A14B` (check `dl-a14b.end` there; re-running the same `hf download` resumes it). Then convert it to 4-bit, render with `spikes/s001_generate.py --t5 bf16 --tiling aggressive`, and measure 81-frame clips. After that S-003 rebuilds the tier table. S-002, S-004 and S-006 do not depend on S-001.
+- Done in S-001: `spikes/` environment pinned (D-016); Wan2.1 1.3B, Wan2.2 TI2V-5B and Wan2.2 T2V A14B downloaded, converted and rendered; the 23–29 GB memory peak explained and removed for the small models (D-018); A14B 4-bit works but peaks at 23–24 GB and takes 15–39 min per short clip on 32 GB. Results in docs/research/benchmarks.md. Models are in `~/Library/Caches/MacWan-spikes/` (≈ 275 GB).
+- Next action: finish S-001 from "Still to do in S-001" in docs/research/benchmarks.md — record the 81-frame runs (`~/Library/Caches/MacWan-spikes/results5.jsonl`), then close S-001 and start S-003 (rebuild the tier table from the measured peaks). S-002, S-004 and S-006 do not depend on S-001. The original Hugging Face downloads (≈ 166 GB of the 275 GB) can be deleted once José agrees — ask first.
 - Tooling: `scripts/keel-time`, `scripts/keel-plan`, `scripts/keel-verify` exist. The remaining Keel scripts and hooks are slice S-014 (Phase 5 scaffold); until then the close-out is done by hand.
 
 ## Open items
@@ -69,4 +69,4 @@
 - v1.x and later features, and the product website: itemized in docs/sprints/deferred.md (S-073…S-080) — review trigger: after v1.0, or when José promotes one
 - XCUITest takes the screen — mitigation to agree before S-039 (technical plan §12)
 
-Last updated: 2026-10-06 — sprint 1: S-001 in progress, memory peaks explained (D-018), A14B download running
+Last updated: 2026-10-06 — sprint 1: S-001 in progress, A14B measured; 81-frame runs in progress
