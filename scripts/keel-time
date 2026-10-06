@@ -1,0 +1,368 @@
+#!/usr/bin/env python3
+"""The only reader of the clock (Keel "Session time — measured, never remembered").
+
+  scripts/keel-time start [--plan S-030,S-031]
+  scripts/keel-time slice-start <id>
+  scripts/keel-time slice-end <id> --status done|in-progress|blocked
+  scripts/keel-time pause <reason>
+  scripts/keel-time resume
+  scripts/keel-time end
+  scripts/keel-time report
+
+Raw events: docs/.keel/clock.jsonl (machine-local, gitignored). Committed facts: actual_hours in
+the sprint files and one row per session in docs/sessions.md. Timestamps are UTC in the files and
+local time in everything printed. Every figure is AI working time plus supervision.
+"""
+import json
+import os
+import sys
+import time
+from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _keel_plan as kp  # noqa: E402
+
+ROOT = kp.repo_root()
+CLOCK = os.path.join(ROOT, "docs", ".keel", "clock.jsonl")
+SESSIONS = os.path.join(ROOT, "docs", "sessions.md")
+ISO = "%Y-%m-%dT%H:%M:%SZ"
+
+
+def now():
+    return datetime.now(timezone.utc).strftime(ISO)
+
+
+def parse(stamp):
+    return datetime.strptime(stamp, ISO).replace(tzinfo=timezone.utc)
+
+
+def local(stamp, pattern="%H:%M"):
+    return parse(stamp).astimezone().strftime(pattern)
+
+
+def hours(start, end):
+    return max(0.0, (parse(end) - parse(start)).total_seconds() / 3600)
+
+
+def events():
+    if not os.path.exists(CLOCK):
+        return []
+    with open(CLOCK, encoding="utf-8") as handle:
+        return [json.loads(line) for line in handle if line.strip()]
+
+
+def append(event, **fields):
+    os.makedirs(os.path.dirname(CLOCK), exist_ok=True)
+    record = {"schema": "keel.clock/1", "event": event, "at": now(), **fields}
+    with open(CLOCK, "a", encoding="utf-8") as handle:
+        handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+    return record
+
+
+def open_session(log):
+    """Events of the newest session when it has no session-end, else None."""
+    starts = [i for i, e in enumerate(log) if e["event"] == "session-start"]
+    if not starts:
+        return None
+    tail = log[starts[-1]:]
+    return None if any(e["event"] == "session-end" for e in tail) else tail
+
+
+def last_session(log):
+    starts = [i for i, e in enumerate(log) if e["event"] == "session-start"]
+    return log[starts[-1]:] if starts else None
+
+
+def pauses(session, until):
+    spans, opened = [], None
+    for e in session:
+        if e["event"] == "pause" and opened is None:
+            opened = e["at"]
+        elif e["event"] == "resume" and opened is not None:
+            spans.append((opened, e["at"]))
+            opened = None
+    if opened is not None:
+        spans.append((opened, until))
+    return spans
+
+
+def overlap(start, end, spans):
+    total = 0.0
+    for p_start, p_end in spans:
+        lo, hi = max(start, p_start), min(end, p_end)
+        if lo < hi:
+            total += hours(lo, hi)
+    return total
+
+
+def intervals(session, until):
+    """Per slice: list of (start, end, closed_status or None) inside this session."""
+    result, opened = {}, {}
+    for e in session:
+        if e["event"] == "slice-start":
+            opened[e["slice"]] = e["at"]
+        elif e["event"] == "slice-end" and e["slice"] in opened:
+            result.setdefault(e["slice"], []).append((opened.pop(e["slice"]), e["at"], e.get("status")))
+    for slice_id, start in opened.items():
+        result.setdefault(slice_id, []).append((start, until, None))
+    return result
+
+
+def active_hours(start, end, spans):
+    return hours(start, end) - overlap(start, end, spans)
+
+
+def add_actual(slice_id, delta, status=None):
+    plan = kp.build(ROOT)
+    sprint, item = kp.find_slice(plan, slice_id)
+    if item is None:
+        raise SystemExit(f"keel-time: slice {slice_id} is not in the plan — add it first")
+    previous = item["actual_hours"] if isinstance(item["actual_hours"], (int, float)) else 0.0
+    fields = {"actual_hours": f"{previous + delta:.2f}"}
+    if item.get("actual_source") != "estimated" or previous == 0.0:
+        fields["actual_source"] = "measured"
+    if status:
+        fields["status"] = status
+    path = kp.set_slice_fields(ROOT, slice_id, fields)
+    if sprint["status"] == "not-started":
+        kp.set_sprint_status(path, "in-progress")
+    return item["hours"], previous + delta
+
+
+def close_open_slices(session, until):
+    """Close every open interval as in-progress, writing its partial time."""
+    spans = pauses(session, until)
+    for slice_id, spans_for_slice in intervals(session, until).items():
+        start, end, status = spans_for_slice[-1]
+        if status is None:
+            append("slice-end", session=session[0]["session"], slice=slice_id, status="in-progress")
+            add_actual(slice_id, active_hours(start, end, spans), "in-progress")
+
+
+def summary(session, until):
+    plan = kp.build(ROOT)
+    head = session[0]
+    spans = pauses(session, until)
+    wall = hours(head["at"], until)
+    paused = overlap(head["at"], until, spans)
+    per_slice = intervals(session, until)
+    done, unfinished = [], []
+    for slice_id, parts in per_slice.items():
+        spent = sum(active_hours(s, e, spans) for s, e, _ in parts)
+        _, item = kp.find_slice(plan, slice_id)
+        if item is None:
+            continue
+        row = {"id": slice_id, "title": item["title"], "hours": item["hours"] or 0.0,
+               "actual": item["actual_hours"] or 0.0, "spent": spent}
+        (done if item["status"] == "done" else unfinished).append(row)
+    planned = head.get("planned", [])
+    return {"plan": plan, "start": head["at"], "end": until, "wall": wall, "paused": paused,
+            "active": wall - paused, "planned": planned, "planned_hours": head.get("planned_hours", 0.0),
+            "done": done, "unfinished": unfinished,
+            "unplanned": [r for r in done + unfinished if r["id"] not in planned]}
+
+
+def signed(value):
+    return ("+" if value >= 0 else "−") + kp.fmt(abs(value))
+
+
+def duration(value):
+    minutes = int(round(value * 60))
+    return f"{minutes // 60} h {minutes % 60} min" if minutes >= 60 else f"{minutes} min"
+
+
+def left_line(plan):
+    parts = [f"sprint {sp['sprint']} — {sum(1 for s in sp['slices'] if s['status'] not in ('done', 'dropped'))} "
+             f"slices, {kp.fmt(sp['remaining_hours'])} h" for sp in plan["sprints"] if sp["remaining_hours"] > 0]
+    return " · ".join(parts + [f"total {kp.fmt(plan['remaining_hours'])} h"])
+
+
+def print_report(data):
+    plan = data["plan"]
+    zone = time.strftime("%Z")
+    print(f"Session — {local(data['start'])} → {local(data['end'])} {zone} ({duration(data['wall'])} wall-clock, "
+          f"{duration(data['paused'])} paused, {duration(data['active'])} active)")
+    print(f"Planned at start: {', '.join(data['planned']) or 'nothing'} — {kp.fmt(data['planned_hours'])} h")
+    print("Done:" if data["done"] else "Done: nothing finished this session")
+    for row in data["done"]:
+        print(f"  {row['id']} {row['title']} — estimated {kp.fmt(row['hours'])} h, measured "
+              f"{kp.fmt(row['actual'])} h ({signed(row['actual'] - row['hours'])} h)")
+    print("Not finished:" if data["unfinished"] else "Not finished: nothing")
+    for row in data["unfinished"]:
+        print(f"  {row['id']} {row['title']} — estimated {kp.fmt(row['hours'])} h, "
+              f"{kp.fmt(row['actual'])} h spent so far")
+    print("Unplanned, added this session:" if data["unplanned"] else "Unplanned, added this session: nothing")
+    for row in data["unplanned"]:
+        print(f"  {row['id']} {row['title']} — estimated {kp.fmt(row['hours'])} h")
+    est = sum(r["hours"] for r in data["done"])
+    act = sum(r["actual"] for r in data["done"])
+    if data["done"]:
+        pct = 100 * (act - est) / est if est else 0.0
+        print(f"Deviation on finished work: estimated {kp.fmt(est)} h → measured {kp.fmt(act)} h "
+              f"({signed(act - est)} h, {signed(pct)} %)")
+    else:
+        print("Deviation on finished work: unavailable — no slice finished this session")
+    print(f"Left according to plan: {left_line(plan)}")
+    sample = plan["pace_sample"]
+    if plan["pace_factor"] is None:
+        print("Cumulative measured finished work: unavailable — no measured completed work")
+    else:
+        pct = (plan["pace_factor"] - 1) * 100
+        print(f"Cumulative measured finished work: estimated {kp.fmt(sample['eligible_estimated_hours'])} h → "
+              f"measured {kp.fmt(sample['eligible_actual_hours'])} h ({signed(pct)} %, factor "
+              f"{plan['pace_factor']:.4f}; {sample['eligible_slices']} slices)")
+    print(kp.projection_line(plan))
+    print("Every figure is AI working time plus supervision.")
+
+
+def write_row(data, note=""):
+    plan = data["plan"]
+    est = sum(r["hours"] for r in data["done"])
+    act = sum(r["actual"] for r in data["done"])
+    factor, projected = plan["pace_factor"], plan["projected_remaining_hours"]
+    notes = [note] if note else []
+    if projected is None:
+        notes.append("projection unavailable — no measured completed work")
+    cells = [
+        data["start"], data["end"], f"{data['wall']:.2f}", f"{data['paused']:.2f}",
+        f"{', '.join(data['planned']) or '—'} ({kp.fmt(data['planned_hours'])} h)",
+        ", ".join(r["id"] for r in data["done"]) or "—", f"{est:.2f}", f"{act:.2f}", f"{act - est:.2f}",
+        ", ".join(f"{r['id']} ({kp.fmt(r['actual'])} h)" for r in data["unfinished"]) or "—",
+        f"{plan['remaining_hours']:.2f}", f"{data['active']:.2f}",
+        f"{factor:.4f}" if factor is not None else "—",
+        f"{projected:.2f}" if projected is not None else "—",
+        "; ".join(notes) or "—",
+    ]
+    with open(SESSIONS, "a", encoding="utf-8") as handle:
+        handle.write("| " + " | ".join(cells) + " |\n")
+
+
+def finish(session, until, note=""):
+    close_open_slices(session, until)
+    kp.write(ROOT)
+    data = summary(session, until)
+    write_row(data, note)
+    return data
+
+
+def cmd_start(args):
+    log = events()
+    stale = open_session(log)
+    if stale:
+        last = stale[-1]["at"]
+        finish(stale, last, "unterminated")
+        with open(CLOCK, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps({"schema": "keel.clock/1", "event": "session-end", "at": last,
+                                     "session": stale[0]["session"], "unterminated": True}) + "\n")
+        print(f"Previous session was left open — closed at its last event ({local(last, '%d %b %H:%M')}).")
+    plan = kp.write(ROOT)
+    if "--plan" in args:
+        planned = [p for p in args[args.index("--plan") + 1].split(",") if p]
+    else:
+        planned = [s["id"] for sp in plan["sprints"] for s in sp["slices"]
+                   if s["status"] == "in-progress"]
+    rows = []
+    for slice_id in planned:
+        _, item = kp.find_slice(plan, slice_id)
+        if item is None:
+            raise SystemExit(f"keel-time: {slice_id} is not in the plan — add its slice first")
+        rows.append(item)
+    total = sum(r["hours"] or 0.0 for r in rows)
+    stamp = now()
+    os.makedirs(os.path.dirname(CLOCK), exist_ok=True)
+    with open(CLOCK, "a", encoding="utf-8") as handle:
+        handle.write(json.dumps({"schema": "keel.clock/1", "event": "session-start", "at": stamp,
+                                 "session": stamp, "planned": planned, "planned_hours": total}) + "\n")
+    print(f"Session start — {local(stamp, '%a %d %b %Y, %H:%M')} {time.strftime('%Z')} (system clock)")
+    print(f"Left: {left_line(plan)}")
+    print("This session plans:" if rows else "This session plans: nothing named yet")
+    for item in rows:
+        print(f"  {item['id']} {item['title']} — {kp.fmt(item['hours'])} h")
+    print(f"  Planned: {kp.fmt(total)} h of AI working time plus supervision")
+
+
+def require_session():
+    session = open_session(events())
+    if not session:
+        raise SystemExit("keel-time: no open session — run scripts/keel-time start")
+    return session
+
+
+def cmd_slice_start(args):
+    session = require_session()
+    slice_id = args[0]
+    stamp = now()
+    spans = pauses(session, stamp)
+    for other, parts in intervals(session, stamp).items():
+        start, end, status = parts[-1]
+        if status is None:
+            append("slice-end", session=session[0]["session"], slice=other, status="in-progress")
+            add_actual(other, active_hours(start, end, spans), "in-progress")
+    plan = kp.build(ROOT)
+    sprint, item = kp.find_slice(plan, slice_id)
+    if item is None:
+        raise SystemExit(f"keel-time: {slice_id} is not in the plan — add its slice first")
+    path = kp.set_slice_fields(ROOT, slice_id, {"status": "in-progress"})
+    if sprint["status"] == "not-started":
+        kp.set_sprint_status(path, "in-progress")
+    append("slice-start", session=session[0]["session"], slice=slice_id)
+    kp.write(ROOT)
+    print(f"{slice_id} started — {item['title']} (estimated {kp.fmt(item['hours'])} h)")
+
+
+def cmd_slice_end(args):
+    session = require_session()
+    slice_id = args[0]
+    status = args[args.index("--status") + 1] if "--status" in args else "done"
+    if status not in ("done", "in-progress", "blocked"):
+        raise SystemExit("keel-time: --status must be done, in-progress or blocked")
+    stamp = now()
+    parts = intervals(session, stamp).get(slice_id)
+    if not parts or parts[-1][2] is not None:
+        raise SystemExit(f"keel-time: {slice_id} has no open interval in this session")
+    start, end, _ = parts[-1]
+    append("slice-end", session=session[0]["session"], slice=slice_id, status=status)
+    estimated, actual = add_actual(slice_id, active_hours(start, end, pauses(session, stamp)),
+                                   "done" if status == "done" else "in-progress")
+    kp.write(ROOT)
+    print(f"{slice_id} {status} — estimated {kp.fmt(estimated)} h, measured {kp.fmt(actual)} h "
+          f"({signed(actual - (estimated or 0.0))} h)")
+
+
+def cmd_pause(args):
+    session = require_session()
+    append("pause", session=session[0]["session"], reason=" ".join(args) or "waiting on the user")
+    print("Paused.")
+
+
+def cmd_resume(_args):
+    session = require_session()
+    append("resume", session=session[0]["session"])
+    print("Resumed.")
+
+
+def cmd_end(_args):
+    session = require_session()
+    stamp = now()
+    data = finish(session, stamp)
+    with open(CLOCK, "a", encoding="utf-8") as handle:
+        handle.write(json.dumps({"schema": "keel.clock/1", "event": "session-end", "at": stamp,
+                                 "session": session[0]["session"]}) + "\n")
+    print_report(data)
+
+
+def cmd_report(_args):
+    session = open_session(events()) or last_session(events())
+    if not session:
+        raise SystemExit("keel-time: no session recorded on this machine")
+    ended = [e["at"] for e in session if e["event"] == "session-end"]
+    print_report(summary(session, ended[0] if ended else now()))
+
+
+COMMANDS = {"start": cmd_start, "slice-start": cmd_slice_start, "slice-end": cmd_slice_end,
+            "pause": cmd_pause, "resume": cmd_resume, "end": cmd_end, "report": cmd_report}
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
+        raise SystemExit(__doc__)
+    COMMANDS[sys.argv[1]](sys.argv[2:])

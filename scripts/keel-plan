@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+"""Regenerate docs/.keel/plan.json and docs/sprints/README.md from the sprint files.
+
+  scripts/keel-plan            regenerate both derived files
+  scripts/keel-plan --check    exit 1 if plan.json differs from its sources (writes nothing)
+  scripts/keel-plan --left     print the "what is left / how long" answer (writes nothing)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _keel_plan as kp  # noqa: E402
+
+
+def main():
+    root = kp.repo_root()
+    arg = sys.argv[1] if len(sys.argv) > 1 else ""
+    if arg == "--check":
+        path = os.path.join(root, "docs", ".keel", "plan.json")
+        current = open(path, encoding="utf-8").read() if os.path.exists(path) else ""
+        if current != kp.render_json(kp.build(root)):
+            print("plan.json: DRIFT — run scripts/keel-plan")
+            return 1
+        print("plan.json: matches its sources")
+        return 0
+    if arg == "--left":
+        print(kp.left_block(kp.build(root)))
+        return 0
+    plan = kp.write(root)
+    print(f"plan.json regenerated: {kp.fmt(plan['estimated_hours'])} h estimated, "
+          f"{kp.fmt(plan['remaining_hours'])} h remaining ({kp.UNIT})")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

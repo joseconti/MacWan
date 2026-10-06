@@ -24,3 +24,39 @@ Contingency not included (+20 % proposed). Biggest uncertainty: S-001/S-002 outc
 write code and run the Python worker's pure-logic tests, but every build/test point runs on José's
 Mac (Remote Control session in `/Users/joseconti/Documents/GitHub/MacWan`). Supervision hours above
 assume that.
+
+---
+
+## v1.1 — PRELIMINARY, reconciled with the sprint plan (2026-10-06)
+
+The plan in `docs/sprints/` is now the itemization: one slice per unit of work, each with its hours.
+This table is the sum of those slices and replaces the v1 table above as the working figure. It is
+still **preliminary** — the firm estimate (v2) is written at the Phase 2 gate (S-011), once the
+spikes have replaced the unknowns with measurements. Every figure is **AI working time plus José's
+supervision time**, in one number per slice; contingency is not included.
+
+| Sprint | Goal | Slices | Hours |
+|---|---|---|---|
+| 0 | Phase 1 discovery and base documentation | 1 | 2.5 |
+| 1 | Spikes, Keel foundation and Phase 2 close | 12 | 22 |
+| 2 | Foundations — project skeleton, runtime manager, worker protocol (no UI; runs while Design works) | 9 | 20 |
+| 3 | Models — catalogue, downloads, conversion, Models screen, design system in code | 9 | 19.5 |
+| 4 | First video — onboarding, MLX engine, T2V/I2V/TI2V, render queue | 9 | 21 |
+| 5 | Library — recipes, export, quality presets, LoRA | 6 | 12 |
+| 6 | MPS engine — FLF2V, VACE, V2V, T2I | 8 | 17 |
+| 7 | Prompt Assistant, Settings, Diagnostics, updates | 7 | 14.5 |
+| 8 | Character Animate / Replace (experimental, gated by S-005) | 4 | 10 |
+| 9 | Hardening — accessibility, localization, security, documentation, release preparation | 8 | 21.5 |
+| **Total** | | **73** | **160 h** |
+
+<!-- keel:plan-total 160.0 -->
+
+- Against v1 (103–171 h for AI plus supervision combined): inside the range. What v1 did not
+  itemize and v1.1 does: the Keel tooling (S-007, S-014), the Phase 2 close and design brief
+  (S-008…S-012), the Phase 4 handoff audit (S-022) and the end-user guide (S-071).
+- Contingency proposed: +20 % (≈ 32 h), kept outside the plan so the plan can reach 100 %.
+- Not in the total: `docs/sprints/deferred.md` — 8 items, ≈ 76 h (v1.x features and the product website).
+- AI cost: not computed yet — the payment mode (subscription or API) is asked at the firm estimate
+  (S-011). Actual usage is recorded in `docs/token-ledger.md`.
+- Largest risks to the figure: unchanged from v1 — the outcomes of S-001 and S-002, and S-005's
+  go/no-go for sprint 8 (10 h that a no-go removes).

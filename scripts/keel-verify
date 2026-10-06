@@ -1,0 +1,169 @@
+#!/usr/bin/env python3
+"""MacWan's own Keel linter: mechanical checks that documentation and reality have not drifted.
+
+Covers what can be checked at the project's current position (state files, sprint plan, session
+log, lock, code map). Product checks (build, lint, tests, source/minified pairs) are added at the
+Phase 5 scaffold (slice S-014) — until then they are "not yet applicable", never "passed".
+
+Exit code 0 only when every applicable check passes.
+"""
+import os
+import re
+import subprocess
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _keel_plan as kp  # noqa: E402
+
+ROOT = kp.repo_root()
+BOOKKEEPING = ("docs/sprints/", "docs/.keel/", "docs/PROGRESS.md", "docs/sessions.md", "docs/token-ledger.md")
+failures = []
+
+
+def read(rel):
+    path = os.path.join(ROOT, rel)
+    return open(path, encoding="utf-8").read() if os.path.exists(path) else None
+
+
+def git(*args):
+    return subprocess.run(["git", "-C", ROOT, *args], capture_output=True, text=True).stdout.strip()
+
+
+def check(name, ok, detail=""):
+    print(f"{'PASS' if ok else 'FAIL'}  {name}" + (f" — {detail}" if detail and not ok else ""))
+    if not ok:
+        failures.append(name)
+
+
+def skip(name, why):
+    print(f"N/A   {name} — not yet applicable: {why}")
+
+
+def table_rows(text, header_starts):
+    rows, inside = [], False
+    for line in (text or "").split("\n"):
+        if line.startswith(header_starts):
+            inside = True
+            continue
+        if inside:
+            if not line.startswith("|"):
+                break
+            if not set(line) <= set("|-: "):
+                rows.append([c.strip() for c in line.strip().strip("|").split("|")])
+    return rows
+
+
+def main():
+    progress = read("docs/PROGRESS.md") or ""
+    sprints, deferred = kp.load(ROOT)
+    slices = [s for sp in sprints for s in sp["slices"]]
+    plan = kp.build(ROOT)
+
+    # State files and lock
+    for rel in ("docs/PROGRESS.md", "docs/decisions.md", "docs/lessons-learned.md", "docs/sessions.md",
+                "docs/token-ledger.md", "docs/keel-conformance.md", "docs/estimate.md", "docs/threat-model.md"):
+        check(f"{rel} exists", read(rel) is not None)
+    stamps = [re.search(r"KEEL:BEGIN — (v[\d.]+)", read(f) or "") for f in ("CLAUDE.md", "AGENTS.md")]
+    check("lock stamped identically in CLAUDE.md and AGENTS.md",
+          all(stamps) and stamps[0].group(1) == stamps[1].group(1))
+    ignore = read(".gitignore") or ""
+    for entry in ("CLAUDE.local.md", ".claude/settings.local.json", ".keel-update-check",
+                  "docs/continuation-prompt.md", "docs/.keel/clock.jsonl"):
+        check(f".gitignore carries {entry}", entry in ignore.split("\n"))
+    check("durability: a git remote exists", bool(git("remote")))
+
+    # Sprint plan
+    card = re.search(r"^- Sprints: (\S+)", progress, re.M)
+    check("project card carries Sprints:", bool(card))
+    check("at least one sprint file exists", bool(sprints))
+    bad = [s["id"] for s in slices if s.get("status") not in kp.STATUSES] + \
+          [f"sprint {sp.get('sprint')}" for sp in sprints if sp.get("status") not in kp.STATUSES]
+    check("every status is in the closed enum", not bad, ", ".join(bad))
+    ids = [s["id"] for s in slices] + [d["id"] for d in deferred]
+    dupes = sorted({i for i in ids if ids.count(i) > 1})
+    check("no id appears twice across sprints and deferred.md", not dupes, ", ".join(dupes))
+    home = {s["id"]: sp["sprint"] for sp in sprints for s in sp["slices"]}
+    deferred_ids = {d["id"] for d in deferred}
+    broken = []
+    for sp in sprints:
+        for s in sp["slices"]:
+            for dep in s.get("depends_on") or []:
+                if dep in deferred_ids:
+                    broken.append(f"{s['id']}→{dep} (deferred)")
+                elif dep not in home:
+                    broken.append(f"{s['id']}→{dep} (unknown)")
+                elif home[dep] > sp["sprint"]:
+                    broken.append(f"{s['id']}→{dep} (later sprint)")
+    check("every depends_on resolves to the same or an earlier sprint", not broken, ", ".join(broken))
+    check("docs/.keel/plan.json matches its sources", read("docs/.keel/plan.json") == kp.render_json(plan),
+          "run scripts/keel-plan")
+    marker = re.search(r"<!-- keel:plan-total ([\d.]+) -->", read("docs/estimate.md") or "")
+    check("docs/estimate.md plan total equals the sum of the slice hours",
+          bool(marker) and abs(float(marker.group(1)) - plan["estimated_hours"]) < 0.005,
+          f"plan says {plan['estimated_hours']}")
+    missing_actual = [s["id"] for s in slices if s.get("status") == "done"
+                      and not isinstance(s.get("actual_hours"), (int, float))]
+    check("every done slice carries numeric actual_hours", not missing_actual, ", ".join(missing_actual))
+    bad_source = [s["id"] for s in slices if s.get("actual_source") not in kp.SOURCES]
+    check("every actual_source is measured or estimated", not bad_source, ", ".join(bad_source))
+
+    # Position
+    section = progress.split("## Current position")[-1].split("## Open items")[0]
+    named = re.findall(r"S-\d{3}", section)
+    open_ids = {s["id"] for s in slices if s.get("status") not in ("done", "dropped")}
+    check("PROGRESS.md position names an open slice", not open_ids or any(n in open_ids for n in named),
+          f"named: {named or 'none'}")
+
+    # Plan not behind the work
+    work = git("log", "-1", "--format=%H", "--", ".", *[f":(exclude){p}" for p in BOOKKEEPING])
+    plan_commit = git("log", "-1", "--format=%H", "--", "docs/sprints/")
+    if work and plan_commit:
+        behind = subprocess.run(["git", "-C", ROOT, "merge-base", "--is-ancestor", work, plan_commit]).returncode
+        check("the plan is not behind the work", behind == 0, f"commit {work[:7]} is newer than the plan's last update")
+    else:
+        skip("the plan is not behind the work", "no commit touches docs/sprints/ yet")
+
+    # Sessions
+    rows = table_rows(read("docs/sessions.md"), "| Start |")
+    recorded = {i for r in rows for i in re.findall(r"S-\d{3}", r[5])} if rows else set()
+    unlisted = [s["id"] for s in slices if s.get("status") == "done" and s.get("actual_source") == "measured"
+                and s["id"] not in recorded]
+    check("every measured done slice is listed in a docs/sessions.md row", not unlisted, ", ".join(unlisted))
+    wrong = []
+    for r in rows:
+        try:
+            if r[1] < r[0] or abs(float(r[8]) - (float(r[7]) - float(r[6]))) > 0.05 \
+                    or abs(float(r[11]) - (float(r[2]) - float(r[3]))) > 0.05:
+                wrong.append(r[0])
+            if r[13] != "—" and abs(float(r[13]) - float(r[10]) * float(r[12])) > 0.05:
+                wrong.append(r[0])
+        except (ValueError, IndexError):
+            wrong.append(r[0] if r else "?")
+    check("every docs/sessions.md row is arithmetically consistent", not wrong, ", ".join(wrong))
+
+    # Code map: every [E] row exists on disk
+    plan_text = read("docs/03-technical-plan.md") or ""
+    absent = [m for m in re.findall(r"^\| `([^`]+)` \| \[E\]", plan_text, re.M)
+              if not os.path.exists(os.path.join(ROOT, m))]
+    check("every [E] row of the code map exists on disk", not absent, ", ".join(absent))
+
+    # Conformance sweep
+    conformance = table_rows(read("docs/keel-conformance.md"), "| Requirement")
+    stateless = [r[0] for r in conformance if len(r) < 2 or r[1].split()[0] not in ("present", "missing", "declined", "n/a")]
+    check("every conformance row carries a state", bool(conformance) and not stateless, ", ".join(stateless))
+    undated = [r[0] for r in conformance if r[1].startswith("missing") and not re.search(r"due .*S-\d{3}", r[-1])]
+    check("every missing conformance row names the later slice that creates it", not undated, ", ".join(undated))
+    decisions = read("docs/decisions.md") or ""
+    loose = [r[0] for r in conformance if r[1].startswith("declined") and not re.search(r"D-\d{3}", r[2])
+             or (re.search(r"D-\d{3}", r[2]) and re.search(r"D-\d{3}", r[2]).group(0) not in decisions)]
+    check("every declined conformance row cites a real decision", not loose, ", ".join(loose))
+
+    skip("build, lint and test commands", "no product code exists (first built in sprint 2, S-013)")
+    skip("public surfaces documented in docs/api/INDEX.md", "no public surface exists yet")
+
+    print(f"\nVERDICT: {'PASS' if not failures else 'FAIL'} ({len(failures)} failing)")
+    return 1 if failures else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

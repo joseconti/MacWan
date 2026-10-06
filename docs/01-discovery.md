@@ -103,3 +103,23 @@ WCAG 2.2 AA principles applied to the native UI.
 5. Locales: EN + ES + CA? *(default yes)*
 6. Product website later (Phase 8)? *(default yes)*
 7. Keel session setup: automatic mode, forge-issue duty, issue capture, notification channel.
+
+## 10. Environment & test drivers (step 5a preflight — 2026-10-06)
+
+- This session can run commands where the repo lives: **yes** (Claude Code on José's Mac, in
+  `/Users/joseconti/Documents/GitHub/MacWan`).
+- Environment restrictions found: none — network, file deletion and local execution all work.
+- `claude` on PATH: yes (`/Users/joseconti/.local/bin/claude`). Chaining itself is still unasked.
+- Machines in play: one — José's Mac is the development machine, the repo host and the test runner.
+- Present on the test machine: Apple M5, 32 GB unified memory, macOS 27.0.1, 605 GB free; Xcode 27.0
+  (27A266a); XcodeGen; Python 3 (Homebrew); GitHub CLI.
+- Missing or too old: `uv`, SwiftLint, gitleaks (optional). Nothing was installed at this step;
+  install paths are in `docs/03-technical-plan.md` §13 and are asked before running.
+- Impossible on this machine: Entry-tier (16 GB) measurements — it has 32 GB. Way around: a second
+  16 GB Apple Silicon Mac, or the Entry rows stay `VERIFY` with a conservative memory guard.
+- Screen-stealing verdict: Swift and Python unit tests and the worker protocol run headless;
+  **XCUITest takes the screen.** Mitigation proposed: a dedicated macOS user session or scheduled
+  batches José starts (technical plan §12) — to be agreed before the first UI test (S-039).
+- Licence or privilege consequences: none — no container runtime, no elevated group. Xcode is
+  already installed and licensed.
+- Out-of-band notification channels that deliver: none chosen (José named no channel, D-008).

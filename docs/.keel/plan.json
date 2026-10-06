@@ -1,0 +1,1293 @@
+{
+  "schema": "keel.plan/1",
+  "unit": "AI working hours plus supervision hours",
+  "contingency_included": false,
+  "estimated_hours": 160.0,
+  "done_hours": 7.0,
+  "actual_hours": 1.77,
+  "remaining_hours": 153.0,
+  "deviation_hours": -5.23,
+  "percent_done": 4.38,
+  "slices_total": 73,
+  "slices_done": 4,
+  "projected_remaining_hours": null,
+  "pace_factor": null,
+  "pace_sample": {
+    "eligible_slices": 0,
+    "eligible_estimated_hours": 0,
+    "eligible_actual_hours": 0
+  },
+  "sprints": [
+    {
+      "sprint": 0,
+      "goal": "Phase 1 discovery and base documentation",
+      "status": "done",
+      "path": "docs/sprints/sprint-0.md",
+      "estimated_hours": 2.5,
+      "done_hours": 2.5,
+      "actual_hours": 1.5,
+      "remaining_hours": 0,
+      "deviation_hours": -1.0,
+      "percent_done": 100.0,
+      "slices_total": 1,
+      "slices_done": 1,
+      "projected_remaining_hours": 0.0,
+      "slices": [
+        {
+          "id": "S-000",
+          "title": "Research the Wan-Video organization and Apple Silicon runtimes; write base docs (00, 01, 02 draft, 03 draft, research/, estimate v1)",
+          "status": "done",
+          "hours": 2.5,
+          "actual_hours": 1.5,
+          "actual_source": "estimated",
+          "depends_on": [],
+          "criteria": []
+        }
+      ]
+    },
+    {
+      "sprint": 1,
+      "goal": "Spikes, Keel foundation and Phase 2 close",
+      "status": "in-progress",
+      "path": "docs/sprints/sprint-1.md",
+      "estimated_hours": 22.0,
+      "done_hours": 4.5,
+      "actual_hours": 0.27,
+      "remaining_hours": 17.5,
+      "deviation_hours": -4.23,
+      "percent_done": 20.45,
+      "slices_total": 12,
+      "slices_done": 3,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-001",
+          "title": "mlx-video spike — convert + generate Wan2.1 1.3B, Wan2.2 TI2V-5B (q4/bf16), A14B (q4); pin SHA and real module paths; measure peak memory, s/step, disk",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-002",
+          "title": "diffusers on MPS spike — FLF2V, VACE, V2V, Animate pipelines; list CPU fallbacks; GGUF loading",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-003",
+          "title": "Memory tiers — measure every variant, freeze the tier table",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-001",
+            "S-002"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-004",
+          "title": "Notarized app installs uv + standalone Python + venv on a clean macOS user",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [],
+          "criteria": [
+            "AC-01"
+          ]
+        },
+        {
+          "id": "S-005",
+          "title": "Wan2.2 Animate preprocessing on Mac — go/no-go",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-002"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-006",
+          "title": "Prompt extension — port Wan system prompts; local Qwen 4-bit vs claude -p",
+          "status": "not-started",
+          "hours": 1,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-007",
+          "title": "Keel step 0a — keel-time, keel-plan, keel-verify, sessions log, token ledger, conformance sweep, machine-local settings",
+          "status": "done",
+          "hours": 1.5,
+          "actual_hours": 0.1,
+          "actual_source": "estimated",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-008",
+          "title": "Phase 2 documentation — flows, AC ids, data model, integrations, design split, threat model, code-map markers, change map, environment preflight and requirements",
+          "status": "done",
+          "hours": 2,
+          "actual_hours": 0.1,
+          "actual_source": "estimated",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-009",
+          "title": "Sprint plan — slices for sprints 2–9, deferred backlog, estimate v1.1 reconciled with the plan",
+          "status": "done",
+          "hours": 1,
+          "actual_hours": 0.07,
+          "actual_source": "estimated",
+          "depends_on": [],
+          "criteria": []
+        },
+        {
+          "id": "S-010",
+          "title": "Consolidate spike results — docs/research/benchmarks.md, frozen tier table, catalogue values, decisions; update 02/03 to match",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-001",
+            "S-002",
+            "S-003",
+            "S-004",
+            "S-005",
+            "S-006"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-011",
+          "title": "Phase 2 gate — adversarial spec review, open questions closed, firm estimate v2",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-010"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-012",
+          "title": "Phase 3 — design-system decision and DESIGN-BRIEF.md with the ready-to-paste Design prompt",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-011"
+          ],
+          "criteria": []
+        }
+      ]
+    },
+    {
+      "sprint": 2,
+      "goal": "Foundations — project skeleton, runtime manager, worker protocol (no UI; runs while Design works)",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-2.md",
+      "estimated_hours": 20.0,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 20.0,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 9,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-013",
+          "title": "Scaffold — XcodeGen project.yml, SwiftPM packages, app target shell, SwiftLint/swift-format/ruff configs, .gitattributes, scripts/build.sh",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-011"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-014",
+          "title": "Keel scaffold tooling — keel-doctor, keel-affected-tests, pre-push and post-commit hooks, keel-close, keel-handoff-verify, keel-stop-hook, keel-session-pid, docs/playground.md, docs/05-test-points.md, docs/api/INDEX.md",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-013"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-015",
+          "title": "MacWanCore — Recipe, Job, Task, ModelDescriptor, Variant, Tier, error types, logger with debug switch",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-013"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-016",
+          "title": "Recipe validation — 4n+1 frames, supported sizes, size divisor, fps to duration (test-first)",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11"
+          ]
+        },
+        {
+          "id": "S-017",
+          "title": "Worker package — protocol v1 (hello handshake, commands, events, closed error codes), fake engine, pytest suite",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-013"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-018",
+          "title": "Swift protocol codec and EngineHost — spawn, handshake, monitor, crash restart, golden JSON tests",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015",
+            "S-017"
+          ],
+          "criteria": [
+            "AC-21"
+          ]
+        },
+        {
+          "id": "S-019",
+          "title": "HardwareProbe and tier assignment",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015"
+          ],
+          "criteria": [
+            "AC-04"
+          ]
+        },
+        {
+          "id": "S-020",
+          "title": "RuntimeManager — uv, standalone Python, per-engine venvs, state.json, repair, resume (tested with a fake uv)",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015"
+          ],
+          "criteria": [
+            "AC-02",
+            "AC-03",
+            "AC-50",
+            "AC-51"
+          ]
+        },
+        {
+          "id": "S-021",
+          "title": "Bundle uv (scripts/fetch-uv, Contents/Helpers) and real runtime install smoke on Apple Silicon",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-020"
+          ],
+          "criteria": [
+            "AC-01"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 3,
+      "goal": "Models — catalogue, downloads, conversion, Models screen, design system in code",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-3.md",
+      "estimated_hours": 19.5,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 19.5,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 9,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-022",
+          "title": "Phase 4 — design handoff completeness audit with evidence, Design Requests if needed, docs/BUILD-SPEC.md",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-012"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-023",
+          "title": "Catalogue — schema, loader, validation, Resources/catalogue.json with the measured values",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-010",
+            "S-015"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-024",
+          "title": "Worker download — Hugging Face resume, pinned revision, sha256 verification, ModelScope fallback, host allow-list",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-017"
+          ],
+          "criteria": [
+            "AC-41",
+            "AC-42"
+          ]
+        },
+        {
+          "id": "S-025",
+          "title": "Worker convert and quantize — MLX conversion, delete originals, shared T5/VAE dedupe",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-024"
+          ],
+          "criteria": [
+            "AC-43"
+          ]
+        },
+        {
+          "id": "S-026",
+          "title": "ModelManager — install state machine, disk accounting, verify, delete, change variant",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-023",
+            "S-024",
+            "S-025"
+          ],
+          "criteria": [
+            "AC-40",
+            "AC-44"
+          ]
+        },
+        {
+          "id": "S-027",
+          "title": "Persistence — SwiftData store for installed models, jobs and renders",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-028",
+          "title": "Design tokens, shared components and the app shell with navigation, from the handoff",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-022"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-029",
+          "title": "Models screen",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-026",
+            "S-028"
+          ],
+          "criteria": [
+            "AC-40",
+            "AC-41",
+            "AC-80",
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-030",
+          "title": "Model update notices — pinned revision against remote, offered and never automatic",
+          "status": "not-started",
+          "hours": 1,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-026"
+          ],
+          "criteria": [
+            "AC-52"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 4,
+      "goal": "First video — onboarding, MLX engine, T2V/I2V/TI2V, render queue",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-4.md",
+      "estimated_hours": 21.0,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 21.0,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 9,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-031",
+          "title": "Worker MLX engine — load, generate, progress, preview frames, cancel, unload for T2V, I2V and TI2V",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-017",
+            "S-010"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-032",
+          "title": "MLXEngine (Swift), capability table and the memory guard",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-018",
+            "S-023",
+            "S-031"
+          ],
+          "criteria": [
+            "AC-12"
+          ]
+        },
+        {
+          "id": "S-033",
+          "title": "JobQueue — state machine, one render at a time, cancel, reorder, pause, sleep prevention, worker-crash recovery",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-018",
+            "S-027"
+          ],
+          "criteria": [
+            "AC-20",
+            "AC-21",
+            "AC-22"
+          ]
+        },
+        {
+          "id": "S-034",
+          "title": "Onboarding wizard (F1) — hardware check, storage, starter pack, licence, resumable install checklist",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-019",
+            "S-020",
+            "S-026",
+            "S-028"
+          ],
+          "criteria": [
+            "AC-01",
+            "AC-02",
+            "AC-03",
+            "AC-04",
+            "AC-80",
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-035",
+          "title": "Benchmark render and ETA calibration",
+          "status": "not-started",
+          "hours": 1,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-032",
+            "S-033"
+          ],
+          "criteria": [
+            "AC-23"
+          ]
+        },
+        {
+          "id": "S-036",
+          "title": "Create screen framework (inputs, preview, Advanced) and Text to Video",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-016",
+            "S-028",
+            "S-032",
+            "S-033"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11",
+            "AC-80",
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-037",
+          "title": "Image to Video and TI2V task screens",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11"
+          ]
+        },
+        {
+          "id": "S-038",
+          "title": "Queue screen, notifications and the menu-bar extra",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-033",
+            "S-028"
+          ],
+          "criteria": [
+            "AC-20",
+            "AC-22",
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-039",
+          "title": "End-to-end UI tests — onboarding with the fake runtime, create to queue with the fake engine, accessibility audit per screen",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-034",
+            "S-036",
+            "S-038"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 5,
+      "goal": "Library — recipes, export, quality presets, LoRA",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-5.md",
+      "estimated_hours": 12.0,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 12.0,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 6,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-040",
+          "title": "Library store — render folders, recipe.json, thumbnails",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-027",
+            "S-033"
+          ],
+          "criteria": [
+            "AC-30"
+          ]
+        },
+        {
+          "id": "S-041",
+          "title": "Library screen — grid, detail, player, Generate again, Use as input, delete",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-040",
+            "S-028"
+          ],
+          "criteria": [
+            "AC-30",
+            "AC-31",
+            "AC-80",
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-042",
+          "title": "ExportService — H.264, HEVC, ProRes 422, PNG sequence, GIF, recipe metadata",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-040"
+          ],
+          "criteria": [
+            "AC-32"
+          ]
+        },
+        {
+          "id": "S-043",
+          "title": "Quality presets — Draft (Lightning LoRA), Standard, High",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-044",
+          "title": "LoRA loading — import, list, per-recipe scale and target",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-031",
+            "S-036"
+          ],
+          "criteria": [
+            "AC-10"
+          ]
+        },
+        {
+          "id": "S-045",
+          "title": "End-to-end UI tests — create to library to export, accessibility audit",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-041",
+            "S-042"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 6,
+      "goal": "MPS engine — FLF2V, VACE, V2V, T2I",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-6.md",
+      "estimated_hours": 17.0,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 17.0,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 8,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-046",
+          "title": "Worker MPS engine (diffusers) — load, generate, progress, cancel, GGUF and bf16 loading",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-017",
+            "S-010"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-047",
+          "title": "MPSEngine (Swift) and capability routing between engines",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-032",
+            "S-046"
+          ],
+          "criteria": [
+            "AC-12"
+          ]
+        },
+        {
+          "id": "S-048",
+          "title": "First + Last frame to Video task",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-047"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11"
+          ]
+        },
+        {
+          "id": "S-049",
+          "title": "VACE in the worker — reference images, mask, control video parameters",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-046"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-050",
+          "title": "Edit & Control (VACE) screen, including mask and control inputs",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-049"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11",
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-051",
+          "title": "Video to Video task",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-047"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11"
+          ]
+        },
+        {
+          "id": "S-052",
+          "title": "Text to Image task",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-047"
+          ],
+          "criteria": [
+            "AC-10"
+          ]
+        },
+        {
+          "id": "S-053",
+          "title": "Real-engine smoke suite (slow) and UI tests with accessibility audit for the new screens",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-048",
+            "S-050",
+            "S-051",
+            "S-052"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 7,
+      "goal": "Prompt Assistant, Settings, Diagnostics, updates",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-7.md",
+      "estimated_hours": 14.5,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 14.5,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 7,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-054",
+          "title": "PromptAssistant core, ported Wan system prompts, local MLX-LM provider",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-017",
+            "S-010"
+          ],
+          "criteria": [
+            "AC-60"
+          ]
+        },
+        {
+          "id": "S-055",
+          "title": "Claude Code CLI and Codex CLI providers — fixed arguments, timeouts, output as data",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-054"
+          ],
+          "criteria": [
+            "AC-61"
+          ]
+        },
+        {
+          "id": "S-056",
+          "title": "API-key providers and SecretsStore (Keychain)",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-054"
+          ],
+          "criteria": [
+            "AC-62"
+          ]
+        },
+        {
+          "id": "S-057",
+          "title": "Enhance UI (diff accept or edit) and Describe image",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-054"
+          ],
+          "criteria": [
+            "AC-60",
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-058",
+          "title": "Settings — storage (external volume), engines and Repair, privacy, updates",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-020",
+            "S-026",
+            "S-028"
+          ],
+          "criteria": [
+            "AC-50",
+            "AC-51",
+            "AC-80",
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-059",
+          "title": "Diagnostics export — scrubbed zip",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-015"
+          ],
+          "criteria": [
+            "AC-70"
+          ]
+        },
+        {
+          "id": "S-060",
+          "title": "Sparkle 2 integration and scripts/appcast.sh",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-013"
+          ],
+          "criteria": [
+            "AC-53"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 8,
+      "goal": "Character Animate / Replace (experimental, gated by S-005)",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-8.md",
+      "estimated_hours": 10.0,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 10.0,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 4,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-061",
+          "title": "Animate preprocessing on the Mac — pose, face and mask extraction in the worker",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-005",
+            "S-046"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-062",
+          "title": "Worker Animate and Replace generation",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-061"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-063",
+          "title": "Animate task screen — tier-gated, marked experimental",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-036",
+            "S-062"
+          ],
+          "criteria": [
+            "AC-10",
+            "AC-11",
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-064",
+          "title": "Smoke test, UI test and accessibility audit for Animate",
+          "status": "not-started",
+          "hours": 1.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-063"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        }
+      ]
+    },
+    {
+      "sprint": 9,
+      "goal": "Hardening — accessibility, localization, security, documentation, release preparation",
+      "status": "not-started",
+      "path": "docs/sprints/sprint-9.md",
+      "estimated_hours": 21.5,
+      "done_hours": 0,
+      "actual_hours": 0,
+      "remaining_hours": 21.5,
+      "deviation_hours": 0,
+      "percent_done": 0.0,
+      "slices_total": 8,
+      "slices_done": 0,
+      "projected_remaining_hours": null,
+      "slices": [
+        {
+          "id": "S-065",
+          "title": "Accessibility — automated audit of every screen and state, driven keyboard pass, fixes",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-039",
+            "S-045",
+            "S-053"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-066",
+          "title": "Guided VoiceOver pass with José, one instruction at a time, and fixes",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-065"
+          ],
+          "criteria": [
+            "AC-80"
+          ]
+        },
+        {
+          "id": "S-067",
+          "title": "Spanish and Catalan localization, long-string layout check",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-058"
+          ],
+          "criteria": [
+            "AC-81"
+          ]
+        },
+        {
+          "id": "S-068",
+          "title": "Security hardening, threat-model re-verification, security audit offer",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-058",
+            "S-060"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-069",
+          "title": "Sign and notarize pipeline (scripts/notarize.sh) and install test on a clean macOS user",
+          "status": "not-started",
+          "hours": 2.5,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-060"
+          ],
+          "criteria": [
+            "AC-01",
+            "AC-53"
+          ]
+        },
+        {
+          "id": "S-070",
+          "title": "Phase 6 documentation — architecture, api, usage, reference, security, accessibility, README",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-065"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-071",
+          "title": "End-user guide (guide/) on keel-docs-theme, in the shipped locales",
+          "status": "not-started",
+          "hours": 3,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-067",
+            "S-070"
+          ],
+          "criteria": []
+        },
+        {
+          "id": "S-072",
+          "title": "Phase 7 gate — full suite on the candidate, keel-verify, release record, licence decision, version",
+          "status": "not-started",
+          "hours": 2,
+          "actual_hours": null,
+          "actual_source": "measured",
+          "depends_on": [
+            "S-066",
+            "S-068",
+            "S-069",
+            "S-070",
+            "S-071"
+          ],
+          "criteria": []
+        }
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "id": "S-073",
+      "title": "Speech to Video (Wan2.2 S2V)",
+      "hours": 8,
+      "target": "v1.x",
+      "reason": "no Mac-capable pipeline exists yet; needs a port or an upstream diffusers pipeline",
+      "depends_on": []
+    },
+    {
+      "id": "S-074",
+      "title": "Wan-Animate-2",
+      "hours": 6,
+      "target": "v1.x",
+      "reason": "waiting for diffusers support and RAM validation",
+      "depends_on": []
+    },
+    {
+      "id": "S-075",
+      "title": "Cloud engine (Alibaba Model Studio, Wan 2.5–3.0)",
+      "hours": 10,
+      "target": "v1.x",
+      "reason": "D-008 — José chose v1.x",
+      "depends_on": []
+    },
+    {
+      "id": "S-076",
+      "title": "LoRA training",
+      "hours": 12,
+      "target": null,
+      "reason": "out of v1 scope; no target version proposed",
+      "depends_on": []
+    },
+    {
+      "id": "S-077",
+      "title": "Wan-Dancer",
+      "hours": 8,
+      "target": null,
+      "reason": "CUDA-only upstream; revisit when a Mac path exists",
+      "depends_on": []
+    },
+    {
+      "id": "S-078",
+      "title": "Multi-shot storyboard",
+      "hours": 8,
+      "target": null,
+      "reason": "out of v1 scope",
+      "depends_on": []
+    },
+    {
+      "id": "S-079",
+      "title": "Agent / MCP control of the app",
+      "hours": 8,
+      "target": null,
+      "reason": "out of v1 scope",
+      "depends_on": []
+    },
+    {
+      "id": "S-080",
+      "title": "Product website (Keel Phase 8)",
+      "hours": 16,
+      "target": "after v1.0",
+      "reason": "D-008 — website intent yes, at a later date",
+      "depends_on": []
+    }
+  ],
+  "deferred_hours": 76.0
+}

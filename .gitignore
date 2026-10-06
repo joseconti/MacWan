@@ -8,3 +8,7 @@ docs/.keel/clock.jsonl
 
 # OS / editor
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc

@@ -15,9 +15,14 @@ Read in this order:
 | 5 | [`research/ai-assistant-cli.md`](research/ai-assistant-cli.md) | where Claude/ChatGPT CLIs help (prompts) and where they cannot (video) |
 | 6 | [`00-competitive-landscape.md`](00-competitive-landscape.md) | Draw Things, ComfyUI, mlx-video… and why MacWan must cover every task |
 | 7 | [`01-discovery.md`](01-discovery.md) | purpose, proposed v1, risks, i18n, accessibility, open questions |
-| 8 | [`02-functional-spec.md`](02-functional-spec.md) | flows, screens, acceptance criteria (DRAFT) |
-| 9 | [`03-technical-plan.md`](03-technical-plan.md) | stack, architecture, code map, worker protocol, catalogue schema, spikes (DRAFT) |
-| 10 | [`estimate.md`](estimate.md) · [`sprints/`](sprints/) | AI-time estimate and the sprint plan |
+| 8 | [`02-functional-spec.md`](02-functional-spec.md) · [`flows/`](flows/) | requirements, acceptance criteria (`AC-nn`), data model, design split, the five flows (DRAFT) |
+| 9 | [`03-technical-plan.md`](03-technical-plan.md) | stack, architecture, marked code map, change map, worker protocol, catalogue schema, testing, environment requirements, spikes (DRAFT) |
+| 10 | [`threat-model.md`](threat-model.md) | assumptions, controls with their delivery state, what is deliberately not defended |
+| 11 | [`estimate.md`](estimate.md) · [`sprints/README.md`](sprints/README.md) | AI-time estimate and the sprint plan (73 slices, sprints 0–9) · [`sprints/deferred.md`](sprints/deferred.md) |
+| 12 | [`sessions.md`](sessions.md) · [`token-ledger.md`](token-ledger.md) · [`keel-conformance.md`](keel-conformance.md) | measured session time, token usage, the Keel conformance sweep |
 
-**Next action for a developer:** Sprint 1 spikes (`sprints/sprint-1.md`) on an Apple Silicon Mac.
+Project scripts: `scripts/keel-time` (session clock), `scripts/keel-plan` (regenerates the plan and
+answers "what is left": `scripts/keel-plan --left`), `scripts/keel-verify` (state and plan linter).
+
+**Next action for a developer:** the sprint 1 spikes, starting with S-001 (`sprints/sprint-1.md`), on an Apple Silicon Mac.
 Anything marked **VERIFY** in the research docs is unconfirmed and must be proven before code relies on it.

@@ -58,3 +58,31 @@
 - Why: José's explicit confirmation in the project thread.
 - Alternatives rejected (and why): see docs/01-discovery.md §9 options.
 - Supersedes: none (confirms D-005)
+
+## D-009 — Sprint plan v1: 73 slices in sprints 0–9; design runs in parallel with the foundations
+- Date / phase: 2026-10-06 / Phase 2 (sprint 1, S-009)
+- Decision: every unit of work to v1.0 is a slice in `docs/sprints/` (160 h of AI working time plus supervision, contingency excluded). Sprint 1 also carries the Keel foundation, the Phase 2 close and the Phase 3 design brief (S-007…S-012). Sprint 2 builds only what needs no design (skeleton, runtime, worker, protocol) so it runs while Design works on the brief; the Phase 4 handoff audit (S-022) opens sprint 3. v1.x features and the product website live in `docs/sprints/deferred.md` (S-073…S-080), outside the total. The plan is preliminary until the Phase 2 gate (S-011): spike outcomes may move, resize or drop slices, each change recorded here.
+- Why: Keel requires every piece of work to be in the plan with its hours before it starts; José asked for the sprints explicitly.
+- Alternatives rejected (and why): planning only the next sprint — leaves "what is left and how long" unanswerable; waiting for Design before any code — idles sprint 2 work that does not depend on design.
+- Supersedes: none (extends the nine-row table of estimate v1)
+
+## D-010 — Security audit: optional (derived, not asked)
+- Date / phase: 2026-10-06 / Phase 2 step 4c
+- Decision: the card's `Security audit:` line is `optional`. Derived from `docs/threat-model.md` §4: no money moves, the app collects and transmits no personal data, and no programmatic surface is reachable from outside (the worker speaks over stdio to its parent). An audit is still offered at S-068 because of the supply-chain surface.
+- Why: Keel derives this line from the threat model; it is recomputed whenever the threat model changes — the deferred cloud engine (S-075) or agent/MCP control (S-079) would flip it to `required`.
+- Alternatives rejected (and why): `required` — none of the three criteria holds today.
+- Supersedes: none
+
+## D-011 — Keel project scripts are Python 3, standard library only
+- Date / phase: 2026-10-06 / Phase 1 step 0a (completed in sprint 1, S-007)
+- Decision: `scripts/keel-time`, `scripts/keel-plan` and `scripts/keel-verify` (sharing `scripts/_keel_plan.py`) are written in Python 3 with no third-party package. `scripts/keel-plan` is the single generator of `docs/.keel/plan.json` and `docs/sprints/README.md`.
+- Why: the scripts parse YAML frontmatter and do decimal arithmetic on hours, which plain shell does badly; Python 3 is present on every development Mac with Xcode. One shared module means the plan is computed by one implementation.
+- Alternatives rejected (and why): POSIX shell with awk — fragile for the frontmatter and the projection maths; a YAML library — a dependency for a closed, tiny schema.
+- Supersedes: none
+
+## D-012 — Machine-local automatic mode written for this checkout
+- Date / phase: 2026-10-06 / session-start setup
+- Decision: `.claude/settings.local.json` (gitignored) was created on José's Mac with `permissions.defaultMode: auto`, Keel's forge allow-list, its minimal deny block and an absolute `env.PATH`, implementing the automatic mode recorded in D-008. No committed permission file was written.
+- Why: D-008 recorded automatic mode; the file is per machine, so a fresh checkout has none.
+- Alternatives rejected (and why): per-session `--permission-mode auto` — has to be repeated every session.
+- Supersedes: none
