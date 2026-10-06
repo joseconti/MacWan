@@ -8,7 +8,7 @@ slices:
     title: mlx-video spike — convert + generate Wan2.1 1.3B, Wan2.2 TI2V-5B (q4/bf16), A14B (q4); pin SHA and real module paths; measure peak memory, s/step, disk
     status: in-progress
     hours: 3
-    actual_hours: 3.42
+    actual_hours: 3.64
     actual_source: measured
     depends_on: []
     criteria: []

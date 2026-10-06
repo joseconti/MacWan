@@ -128,5 +128,5 @@ Loading one expert at a time is the obvious experiment and is not done yet.
 
 ### Still to do in S-001
 
-Longer clips (81 frames running; 121 pending), 1.3B and 5B at their default step counts, I2V at
+Longer clips (81 and 121 frames — the 81-frame runs were stopped unfinished on 2026-10-06, no result), 1.3B and 5B at their default step counts, I2V at
 40 steps, a pre-quantized 8-bit T5 file loaded directly, and A14B with one expert loaded at a time.

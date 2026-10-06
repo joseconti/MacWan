@@ -50,7 +50,7 @@
 ## Current position
 - Phase: 2 — Functional spec  Step/sprint: sprint 1, slice **S-001** (mlx-video spike) in progress
 - Done in S-001: `spikes/` environment pinned (D-016); Wan2.1 1.3B, Wan2.2 TI2V-5B and Wan2.2 T2V A14B downloaded, converted and rendered; the 23–29 GB memory peak explained and removed for the small models (D-018); A14B 4-bit works but peaks at 23–24 GB and takes 15–39 min per short clip on 32 GB. Results in docs/research/benchmarks.md. Models are in `~/Library/Caches/MacWan-spikes/` (≈ 275 GB).
-- Next action: finish S-001 from "Still to do in S-001" in docs/research/benchmarks.md — record the 81-frame runs (`~/Library/Caches/MacWan-spikes/results5.jsonl`), then close S-001 and start S-003 (rebuild the tier table from the measured peaks). S-002, S-004 and S-006 do not depend on S-001. The original Hugging Face downloads (≈ 166 GB of the 275 GB) can be deleted once José agrees — ask first.
+- Next action: **wait for José to name a time window for heavy runs** — renders and conversions saturate his Mac and he stopped them on 2026-10-06 (L-002). The two 81-frame runs were killed before finishing and left no result. Work that does NOT load the machine can proceed meanwhile: S-003's tier table rebuilt from the peaks already measured (marking what is still unmeasured), S-006's prompt porting, and the documentation side of S-004. When a window is given: 81-frame clips, default step counts, I2V at 40 steps, A14B with one expert at a time (benchmarks.md "Still to do in S-001"). The original Hugging Face downloads (≈ 166 GB of ≈ 275 GB in `~/Library/Caches/MacWan-spikes/`) can be deleted once José agrees — asked, unanswered.
 - Tooling: `scripts/keel-time`, `scripts/keel-plan`, `scripts/keel-verify` exist. The remaining Keel scripts and hooks are slice S-014 (Phase 5 scaffold); until then the close-out is done by hand.
 
 ## Open items
@@ -58,7 +58,8 @@
   1. Assistant config — which tools besides Claude Code (Codex, Cursor, Gemini CLI, Copilot, Windsurf)? Needed at S-011
   2. PackDesk — logo assets and brand rules, and where "By PackDesk" must appear. Needed at S-012
   3. Minimum Mac — 16 GB is now plausible (8.6 GB peak for Wan2.1 1.3B, D-018) but cannot be verified without a 16 GB Mac (D-015): ship it labelled unverified, raise the minimum to 24 GB, or find an outside tester. Needed at S-011
-  4. MacWan's own licence (before Phase 7, D-008)
+  4. When heavy spike runs may use the Mac (a time window), and whether to delete the original downloads (≈ 166 GB)
+  5. MacWan's own licence (before Phase 7, D-008)
 - Open Design Requests: none
 - Unverified external steps/assets: every item marked VERIFY in docs/research/*.md and docs/threat-model.md (resolved by the sprint 1 spikes)
 - Forge issues in progress: none
@@ -69,4 +70,4 @@
 - v1.x and later features, and the product website: itemized in docs/sprints/deferred.md (S-073…S-080) — review trigger: after v1.0, or when José promotes one
 - XCUITest takes the screen — mitigation to agree before S-039 (technical plan §12)
 
-Last updated: 2026-10-06 — sprint 1: S-001 in progress, A14B measured; 81-frame runs in progress
+Last updated: 2026-10-06 — sprint 1: S-001 in progress; heavy runs stopped at José's request (L-002)
