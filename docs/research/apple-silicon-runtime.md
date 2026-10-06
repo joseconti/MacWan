@@ -37,8 +37,9 @@ in `transformer_wan.py` and uses PyTorch SDPA — the MPS-specific fixes are ups
 ## 3. Engine A — MLX via `mlx-video` (primary)
 
 > **Measured 2026-10-06 — see `benchmarks.md`.** The real module paths are
-> `mlx_video.models.wan_2.convert` / `.generate`, and the memory peak is the T5 text encoder
-> (≈ 23 GB), which invalidates the tier proposal in §5 as written (D-016, D-017).
+> `mlx_video.models.wan_2.convert` / `.generate`, and the memory peaks are the T5 text encoder upcast
+> to float32 (≈ 23 GB) and the untiled VAE decode — both avoidable (8.6–15.6 GB measured). The tier
+> proposal in §5 must be rebuilt from those figures (D-016, D-017, D-018).
 
 - Repo: `github.com/Blaizzy/mlx-video` (MIT). Models: Wan2.1 (1.3B, 14B), Wan2.2 (T2V-A14B dual,
   I2V-A14B dual, TI2V-5B), plus LTX-2. No tagged releases — **pin a commit SHA**.

@@ -5,7 +5,8 @@ timing iterator that also records MLX peak memory per phase — the same hook Ma
 without parsing any CLI output. Prints one JSON line.
 
   uv run python s001_generate.py <model-dir> <out.mp4> [--width W --height H --frames N --steps S]
-                                 [--memory-limit-gb G] [--image PATH]
+                                 [--memory-limit-gb G] [--image PATH] [--t5 float32|bf16|q8|q4]
+                                 [--tiling auto|none|default|aggressive|conservative|spatial|temporal]
 """
 import argparse
 import json
@@ -24,6 +25,8 @@ parser.add_argument("--frames", type=int, default=17)
 parser.add_argument("--steps", type=int, default=10)
 parser.add_argument("--image")
 parser.add_argument("--memory-limit-gb", type=float)
+parser.add_argument("--t5", default="float32", choices=("float32", "bf16", "q8", "q4"))
+parser.add_argument("--tiling", default="auto")
 parser.add_argument("--prompt", default="A red fox running through fresh snow, cinematic, golden hour")
 args = parser.parse_args()
 
@@ -52,19 +55,22 @@ def timed(iterable, **_kwargs):
 
 
 wan_generate.tqdm = timed
+if args.t5 != "float32":
+    from t5_variants import load_t5
+    wan_generate.load_t5_encoder = lambda path, config: load_t5(path, config, args.t5)
 mx.reset_peak_memory()
 started = time.perf_counter()
 wan_generate.generate_video(
     model_dir=args.model_dir, prompt=args.prompt, image=args.image, width=args.width,
     height=args.height, num_frames=args.frames, steps=args.steps, seed=42,
-    output_path=args.output, scheduler="unipc",
+    output_path=args.output, scheduler="unipc", tiling=args.tiling,
 )
 total = time.perf_counter() - started
 mark("decode_and_save_gb")
 steady = step_times[1:] or step_times
 print(json.dumps({
     "model_dir": args.model_dir, "width": args.width, "height": args.height, "frames": args.frames,
-    "steps": args.steps, "memory_limit_gb": args.memory_limit_gb,
+    "steps": args.steps, "memory_limit_gb": args.memory_limit_gb, "t5": args.t5, "tiling": args.tiling,
     "total_s": round(total, 1), "first_step_s": round(step_times[0], 2) if step_times else None,
     "steady_s_per_step": round(sum(steady) / len(steady), 2) if steady else None,
     "mlx_peak_gb": max(phase_peak.values()), **phase_peak,

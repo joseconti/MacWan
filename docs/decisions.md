@@ -121,3 +121,11 @@
 - Why: measurements in `docs/research/benchmarks.md`.
 - Alternatives: none chosen yet — after S-003, José decides between engineering the T5 path to keep a 16 GB minimum, or raising the minimum.
 - Supersedes: the simulation approach in D-015 (its constraint — no 16 GB Mac — stands)
+
+## D-018 — The 23 GB peak is avoidable: MacWan loads T5 itself and chooses the tiling
+- Date / phase: 2026-10-06 / Phase 2, sprint 1 (S-001, in progress)
+- Decision: corrects the conclusion of D-017 with further measurements (`docs/research/benchmarks.md`). The peak came from two upstream defaults — T5 upcast to float32 (23.7 GB) and an untiled VAE decode (up to 27 GB) — not from the models. With T5 kept in bf16 (11.1 GB, embeddings 0.9998 cosine to the reference) or 8-bit (8.1 GB, 0.998), and aggressive tiling (visually identical, 43–45 dB), Wan2.1 1.3B 4-bit renders in 8.6 GB and TI2V-5B in 9.4–15.6 GB. Consequences for the build: the worker loads the text encoder itself (bf16 by default; a pre-quantized 8-bit file for low-memory Macs; never 4-bit), the memory guard picks the tiling mode, and both are done by replacing `mlx-video` entry points in-process, not by forking it. Quantized TI2V-5B is only offered at 40 steps (clean) — at 10 steps only bf16 is clean.
+- Why: measurements on the M5 / 32 GB.
+- Alternatives rejected (and why): accepting upstream defaults — would make 32 GB the minimum Mac; 4-bit T5 — embeddings degrade (0.877 cosine).
+- Still open (José, at S-011): the 16 GB minimum is now plausible for 1.3B and TI2V-5B 4-bit but cannot be verified without a 16 GB Mac (D-015); `mx.set_memory_limit` does not simulate one (D-017 item 1 stands).
+- Supersedes: D-017 items 2 and 3 (the "needs a 32 GB Mac" reading). D-017 items 1 and 4 stand, item 4 refined: the artifacts are a low-step effect of quantization.

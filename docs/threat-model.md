@@ -35,7 +35,7 @@
 | Requests to unexpected hosts | one closed host allow-list, HTTPS only; generation runs offline (`HF_HUB_OFFLINE`, tokenizer loaded from local files — upstream fetches it from the Hub on every render) | TO BUILD — S-024, S-031 |
 | Secret leakage | Keychain only (AC-62); log scrubber; diagnostics exclude prompts and media by default (AC-70) | TO BUILD — S-056, S-059 |
 | Prompt-injection through assistant output | output shown as a diff and treated as text, never executed (AC-60) | TO BUILD — S-057 |
-| Memory exhaustion freezing the Mac | memory guard before every job (AC-12) | TO BUILD — S-032 |
+| Memory exhaustion freezing the Mac | memory guard before every job (AC-12), which also selects T5 precision and VAE tiling (D-018); MLX's own memory limit does not cap usage and is not relied on | TO BUILD — S-032 |
 | Disk exhaustion | free-space check before download and conversion; clean stop on `DISK_FULL` | TO BUILD — S-026 |
 | Library validation weakened for the worker | entitlement `disable-library-validation` only if S-004 proves it necessary | VERIFY — S-004 |
 | Quarantine or Gatekeeper blocking downloaded binaries | behaviour measured on a clean user | VERIFY — S-004 |

@@ -192,9 +192,10 @@ what is installed.
 | Animate / Replace (experimental) | no | no | yes | yes |
 
 The table is *proposed* (from `docs/research/apple-silicon-runtime.md` §5); S-003 freezes it from measurements.
-**Warning (D-017):** the first measurements contradict it — every model peaks at about 23 GB
-because of the text encoder, so today nothing below 32 GB is shown to work. Do not design or build
-against this table until S-003 rewrites it. A task whose model is not installed
+**Warning (D-017, D-018):** the first measurements replace the reasoning behind it. Upstream defaults
+peak at 23–29 GB on every model; with MacWan loading T5 itself and tiling the decode, Wan2.1 1.3B
+needs 8.6 GB and TI2V-5B 9.4–15.6 GB (`docs/research/benchmarks.md`). S-003 rewrites this table
+from those figures; nothing below 32 GB has been run on real hardware (D-015). A task whose model is not installed
 shows "Install" instead of "Generate"; a task above the Mac's tier is shown as unavailable with the
 reason, never hidden without explanation.
 
