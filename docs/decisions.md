@@ -107,3 +107,17 @@
 - Why: José's answer.
 - Alternatives (for José, at the Phase 2 gate S-011): keep 16 GB supported but labelled "not verified on real hardware" with a conservative memory guard; raise the minimum to 24 GB; or find an outside tester with a 16 GB Mac before release.
 - Supersedes: none (qualifies D-008 item 1)
+
+## D-016 — Spike environment pinned: mlx-video 87db56a, mlx 0.32.3, CPython 3.12
+- Date / phase: 2026-10-06 / Phase 2, sprint 1 (S-001, in progress)
+- Decision: the sprint 1 spikes run on `mlx-video` at commit `87db56a51758fefb748a359b90a5283bb8ba4837` with `mlx` 0.32.3, `torch` 2.14.1 and CPython 3.12, locked in `spikes/uv.lock`. The real entry points at that commit are `mlx_video.models.wan_2.convert` and `mlx_video.models.wan_2.generate`. Spike models are stored outside the repository, in `~/Library/Caches/MacWan-spikes/`. This is the spike pin, not yet the product pin: the worker's lockfiles are fixed at S-017 from whatever S-001…S-003 conclude.
+- Why: upstream has no releases and its README names module paths that do not exist; measurements are only comparable on a fixed commit.
+- Alternatives rejected (and why): tracking `main` — numbers would not be reproducible.
+- Supersedes: none (implements D-004's "pin SHA")
+
+## D-017 — A memory cap does not simulate a smaller Mac; the tier table is not valid as proposed
+- Date / phase: 2026-10-06 / Phase 2, sprint 1 (S-001, in progress)
+- Decision: recorded findings, with the product decision left to José at the Phase 2 gate (S-011). (1) `mx.set_memory_limit(10 GB)` did not constrain a render (23–25 GB used), so D-015's approach to Entry-tier figures is withdrawn; no Entry-tier number exists. (2) The measured peak is about 23 GB for loading and running the UMT5-XXL text encoder, on every model including the smallest; denoising TI2V-5B 4-bit needs 4.35 GB. The tier table proposed from transformer sizes is therefore unsupported: with the engine as it is, MacWan needs a 32 GB Mac. (3) Whether 16 GB or 24 GB is reachable depends on a T5-handling change (quantized T5, separate short-lived process, cached embeddings) that S-003 must now test. (4) 4-bit TI2V-5B is visibly broken at 10 steps while bf16 is clean.
+- Why: measurements in `docs/research/benchmarks.md`.
+- Alternatives: none chosen yet — after S-003, José decides between engineering the T5 path to keep a 16 GB minimum, or raising the minimum.
+- Supersedes: the simulation approach in D-015 (its constraint — no 16 GB Mac — stands)

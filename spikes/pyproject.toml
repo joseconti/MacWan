@@ -1,0 +1,10 @@
+[project]
+name = "macwan-spikes"
+version = "0.0.0"
+description = "Throwaway spike environment for MacWan sprint 1 — never app code"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "mlx-video @ git+https://github.com/Blaizzy/mlx-video.git@87db56a51758fefb748a359b90a5283bb8ba4837",
+  "huggingface_hub",
+  "torch",
+]

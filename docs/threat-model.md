@@ -26,13 +26,13 @@
 | Tampered model file in transit or at rest | sha256 from the catalogue's pinned revision verified before use (AC-42) | TO BUILD — S-024 |
 | Model repository changes under a fixed name | Hugging Face revision pinned by commit in the catalogue | TO BUILD — S-023 |
 | Malicious or changed Python package | `uv sync --frozen` from lockfiles with hashes, shipped inside the signed app | TO BUILD — S-017, S-020 |
-| Arbitrary code execution through pickle weights | `.safetensors` only for models and LoRAs; pickle formats refused | TO BUILD — S-024, S-044 |
+| Arbitrary code execution through pickle weights | upstream ships T5 and VAE as pickle (`.pth`): they are loaded only with `torch.load(weights_only=True)` during conversion and never used again; everything MacWan keeps and every LoRA is `.safetensors`; any other pickle file is refused | TO BUILD — S-024, S-025, S-044 |
 | Tampered `uv` binary | pinned version, checksum verified at build time, shipped inside the signed bundle | TO BUILD — S-021 |
 | Malicious app update | Sparkle 2 EdDSA signature + notarization (AC-53) | TO BUILD — S-060, S-069 |
 | Tampered app bundle | hardened runtime, Developer ID signature, notarization | MANUAL — José's certificate; pipeline S-069 |
 | Command injection through prompts, paths or CLI arguments | `Process` with argument arrays, never a shell; assistant CLIs called with fixed arguments | TO BUILD — S-018, S-055 |
 | Path traversal through protocol or catalogue paths | every path validated to stay inside MacWan's data root or a user-chosen file | TO BUILD — S-018, S-024 |
-| Requests to unexpected hosts | one closed host allow-list, HTTPS only | TO BUILD — S-024 |
+| Requests to unexpected hosts | one closed host allow-list, HTTPS only; generation runs offline (`HF_HUB_OFFLINE`, tokenizer loaded from local files — upstream fetches it from the Hub on every render) | TO BUILD — S-024, S-031 |
 | Secret leakage | Keychain only (AC-62); log scrubber; diagnostics exclude prompts and media by default (AC-70) | TO BUILD — S-056, S-059 |
 | Prompt-injection through assistant output | output shown as a diff and treated as text, never executed (AC-60) | TO BUILD — S-057 |
 | Memory exhaustion freezing the Mac | memory guard before every job (AC-12) | TO BUILD — S-032 |

@@ -83,8 +83,8 @@ absent.** `scripts/keel-verify` checks that every `[E]` row exists.
 | `scripts/_keel_plan.py` | [E] | shared plan logic for the three scripts above |
 | `docs/.keel/plan.json` | [G] | derived plan — `scripts/keel-plan` |
 | `docs/sprints/README.md` | [G] | derived plan index — `scripts/keel-plan` |
-| `spikes/` | [A] S-001…S-006 | throwaway spike scripts, never app code |
-| `docs/research/benchmarks.md` | [A] S-010 | measured spike results |
+| `spikes/` | [E] | throwaway spike scripts and their pinned `uv` environment, never app code |
+| `docs/research/benchmarks.md` | [E] | measured spike results (S-001 in progress) |
 | `project.yml` | [A] S-013 | XcodeGen project definition |
 | `MacWan.xcodeproj` | [G] | `xcodegen generate` — never committed, never hand-edited |
 | `App/` | [A] S-013 | app target: `MacWanApp.swift`, `Info.plist`, entitlements, assets |
@@ -308,9 +308,9 @@ Detected on José's Mac on 2026-10-06 (Apple M5, 32 GB, macOS 27.0.1, 605 GB fre
 | macOS | 14.0+ | blocking | 27.0.1 | — |
 | Xcode.app (full, licence accepted) | pinned at S-013 | blocking | 27.0 (27A266a) | App Store / developer.apple.com (multi-GB) |
 | XcodeGen | pinned at S-013 | blocking | `/opt/homebrew/bin/xcodegen` | `brew install xcodegen` |
-| `uv` | pinned at S-004 | blocking | **missing** | `brew install uv` or the official installer into `~/.local/bin` — asked before installing |
+| `uv` | pinned at S-004 | blocking | 0.12.23 (Homebrew, installed 2026-10-06 with José's OK) | `brew install uv` |
 | Python 3.12 for the worker | 3.12.x | blocking | installed by `uv`, not system Python | `uv python install 3.12` |
-| SwiftLint | pinned at S-013 | blocking for test points | **missing** | `brew install swiftlint` — asked before installing |
+| SwiftLint | pinned at S-013 | blocking for test points | 0.65.1 (Homebrew, installed 2026-10-06 with José's OK) | `brew install swiftlint` |
 | swift-format | bundled with the Xcode toolchain | blocking for test points | to confirm at S-013 | — |
 | ruff | from the worker's dev dependencies | blocking for test points | installed by `uv` | — |
 | GitHub CLI | any recent | optional | `/opt/homebrew/bin/gh` | `brew install gh` |

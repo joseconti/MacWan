@@ -13,6 +13,7 @@ Read in this order:
 | 3 | [`research/wan-video-ecosystem.md`](research/wan-video-ecosystem.md) | what each Wan repo is, how they relate, every model, sizes, CLI flags, defaults |
 | 4 | [`research/apple-silicon-runtime.md`](research/apple-silicon-runtime.md) | why the official code fails on Mac, MLX vs PyTorch-MPS, memory tiers, process model, cloud API |
 | 5 | [`research/ai-assistant-cli.md`](research/ai-assistant-cli.md) | where Claude/ChatGPT CLIs help (prompts) and where they cannot (video) |
+| 5b | [`research/benchmarks.md`](research/benchmarks.md) | what was actually measured on the Mac — read before trusting any size, speed or memory figure elsewhere |
 | 6 | [`00-competitive-landscape.md`](00-competitive-landscape.md) | Draw Things, ComfyUI, mlx-video… and why MacWan must cover every task |
 | 7 | [`01-discovery.md`](01-discovery.md) | purpose, proposed v1, risks, i18n, accessibility, open questions |
 | 8 | [`02-functional-spec.md`](02-functional-spec.md) · [`flows/`](flows/) | requirements, acceptance criteria (`AC-nn`), data model, design split, the five flows (DRAFT) |

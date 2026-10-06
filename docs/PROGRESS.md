@@ -49,14 +49,15 @@
 
 ## Current position
 - Phase: 2 — Functional spec  Step/sprint: sprint 1, slice **S-001** (mlx-video spike) in progress
-- Next action: S-001 — install `uv` and SwiftLint with Homebrew, create `spikes/`, pin an `mlx-video` SHA, download and convert Wan2.1 1.3B then Wan2.2 TI2V-5B (small models first, D-013), render the smoke clips and write every measurement to `docs/research/benchmarks.md`. A14B only after those work. Entry-tier figures are approximated with a memory cap and stay `VERIFY` (D-015). S-002, S-004 and S-006 do not depend on S-001.
+- Done in S-001: `spikes/` environment pinned (D-016); Wan2.1 1.3B and Wan2.2 TI2V-5B downloaded, converted (4-bit and bf16) and rendered; results in docs/research/benchmarks.md. Models are in `~/Library/Caches/MacWan-spikes/` (≈ 113 GB).
+- Next action: continue S-001 from "Still to do in S-001" in docs/research/benchmarks.md — first the T5-handling experiment (the 23 GB text-encoder peak decides the minimum Mac, D-017) and the 8-bit / 40-step quality check of TI2V-5B, then A14B 4-bit (≈ 126 GB download, allowed by D-013 now that the small models work). S-002, S-004 and S-006 do not depend on S-001.
 - Tooling: `scripts/keel-time`, `scripts/keel-plan`, `scripts/keel-verify` exist. The remaining Keel scripts and hooks are slice S-014 (Phase 5 scaffold); until then the close-out is done by hand.
 
 ## Open items
 - Unresolved user questions (parked on José; none blocks S-001…S-006):
   1. Assistant config — which tools besides Claude Code (Codex, Cursor, Gemini CLI, Copilot, Windsurf)? Needed at S-011
   2. PackDesk — logo assets and brand rules, and where "By PackDesk" must appear. Needed at S-012
-  3. Entry tier without a real 16 GB Mac — keep 16 GB labelled unverified, raise the minimum to 24 GB, or find an outside tester (D-015). Needed at S-011
+  3. Minimum Mac — measurements show a ≈ 23 GB peak on every model (D-017): after S-003, engineer the T5 path to keep 16 GB (unverifiable without a 16 GB Mac, D-015) or raise the minimum. Needed at S-011
   4. MacWan's own licence (before Phase 7, D-008)
 - Open Design Requests: none
 - Unverified external steps/assets: every item marked VERIFY in docs/research/*.md and docs/threat-model.md (resolved by the sprint 1 spikes)
@@ -68,4 +69,4 @@
 - v1.x and later features, and the product website: itemized in docs/sprints/deferred.md (S-073…S-080) — review trigger: after v1.0, or when José promotes one
 - XCUITest takes the screen — mitigation to agree before S-039 (technical plan §12)
 
-Last updated: 2026-10-06 — sprint 1: José's setup answers recorded (D-013…D-015); S-001 next
+Last updated: 2026-10-06 — sprint 1: S-001 in progress, first measurements recorded (D-016, D-017)

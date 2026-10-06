@@ -191,7 +191,10 @@ what is installed.
 | V2V | per S-002 | per S-002 | yes | yes |
 | Animate / Replace (experimental) | no | no | yes | yes |
 
-The table is *proposed* (from `docs/research/apple-silicon-runtime.md` §5); S-003 freezes it from measurements. A task whose model is not installed
+The table is *proposed* (from `docs/research/apple-silicon-runtime.md` §5); S-003 freezes it from measurements.
+**Warning (D-017):** the first measurements contradict it — every model peaks at about 23 GB
+because of the text encoder, so today nothing below 32 GB is shown to work. Do not design or build
+against this table until S-003 rewrites it. A task whose model is not installed
 shows "Install" instead of "Generate"; a task above the Mac's tier is shown as unavailable with the
 reason, never hidden without explanation.
 
