@@ -1,0 +1,10 @@
+# Machine-local, never committed (Keel)
+CLAUDE.local.md
+.claude/settings.local.json
+AGENTS.override.md
+.keel-update-check
+docs/continuation-prompt.md
+docs/.keel/clock.jsonl
+
+# OS / editor
+.DS_Store
