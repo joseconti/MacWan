@@ -86,3 +86,24 @@
 - Why: D-008 recorded automatic mode; the file is per machine, so a fresh checkout has none.
 - Alternatives rejected (and why): per-session `--permission-mode auto` — has to be repeated every session.
 - Supersedes: none
+
+## D-013 — José's setup answers (2026-10-06)
+- Date / phase: 2026-10-06 / Phase 2, sprint 1 (S-081)
+- Decision: (1) **Test-first policy: `pure-logic`** — recipe validation, catalogue parsing, the JobQueue state machine, both protocol codecs and tier assignment get their test written and seen failing before the code; at every value a bug fix starts from a failing reproduction test and a test derived from an `AC-nn` is never edited to pass. (2) **Forge issues: after-sprint review plus issue capture on**, sweep interval 24 h; Keel comments and never closes an issue on its own reading. (3) **Notify: email to j.conti@joseconti.com** through the Gmail connector, for blocking stops only. (4) **Assistant config: full, for several tools** — which tools besides Claude Code is still to be named by José. (5) **Chaining: `start`, model `opus`** — takes effect once S-014 builds and smoke-tests the launcher; until then every close-out prints the prompt. (6) **Spikes: install `uv` and SwiftLint with Homebrew and download the small models first** (Wan2.1 1.3B, Wan2.2 TI2V-5B); A14B (≈ 126 GB) only after those work.
+- Why: José's answers to the batched questions in the project thread.
+- Alternatives rejected (and why): the other options offered for each question — José chose these.
+- Supersedes: none (settles the questions left open in D-008)
+
+## D-014 — Design system: MacWan founds its own, endorsed "By PackDesk"
+- Date / phase: 2026-10-06 / Phase 1 step 9 (answered in sprint 1, S-081)
+- Decision: no existing design system applies; MacWan founds one (canonical for the app and its later website). **The parent brand must be shown: "By PackDesk".** José called this very important. Where exactly the endorsement appears (app icon lock-up, About window, onboarding welcome, DMG background, website footer) and whether PackDesk has logo assets and brand rules to respect is asked in S-012, before the design brief is written.
+- Why: José's answer.
+- Alternatives rejected (and why): applying an existing identity — none exists for MacWan; a one-off design — the system will be reused by the website.
+- Supersedes: none
+
+## D-015 — No 16 GB Apple Silicon Mac is available: the Entry tier cannot be measured on real hardware
+- Date / phase: 2026-10-06 / Phase 2, sprint 1 (S-081)
+- Decision: recorded as a constraint, not yet as a product decision. José has no 16 GB Mac; the only test machine is an M5 with 32 GB. S-001 and S-003 will approximate 16 GB by capping the engines' memory limit on the 32 GB machine, and every Entry-tier figure obtained that way stays marked `VERIFY`. Consequence stated: D-008 sets 16 GB as the minimum supported Mac, and that minimum would ship without ever having run on a real 16 GB machine — a capped 32 GB Mac does not reproduce macOS memory pressure, swap or the GPU wired-memory limit of a 16 GB one.
+- Why: José's answer.
+- Alternatives (for José, at the Phase 2 gate S-011): keep 16 GB supported but labelled "not verified on real hardware" with a conservative memory guard; raise the minimum to 24 GB; or find an outside tester with a 16 GB Mac before release.
+- Supersedes: none (qualifies D-008 item 1)

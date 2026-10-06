@@ -38,7 +38,7 @@ supervision time**, in one number per slice; contingency is not included.
 | Sprint | Goal | Slices | Hours |
 |---|---|---|---|
 | 0 | Phase 1 discovery and base documentation | 1 | 2.5 |
-| 1 | Spikes, Keel foundation and Phase 2 close | 12 | 22 |
+| 1 | Spikes, Keel foundation and Phase 2 close | 13 | 22.25 |
 | 2 | Foundations — project skeleton, runtime manager, worker protocol (no UI; runs while Design works) | 9 | 20 |
 | 3 | Models — catalogue, downloads, conversion, Models screen, design system in code | 9 | 19.5 |
 | 4 | First video — onboarding, MLX engine, T2V/I2V/TI2V, render queue | 9 | 21 |
@@ -47,9 +47,9 @@ supervision time**, in one number per slice; contingency is not included.
 | 7 | Prompt Assistant, Settings, Diagnostics, updates | 7 | 14.5 |
 | 8 | Character Animate / Replace (experimental, gated by S-005) | 4 | 10 |
 | 9 | Hardening — accessibility, localization, security, documentation, release preparation | 8 | 21.5 |
-| **Total** | | **73** | **160 h** |
+| **Total** | | **74** | **160.25 h** |
 
-<!-- keel:plan-total 160.0 -->
+<!-- keel:plan-total 160.25 -->
 
 - Against v1 (103–171 h for AI plus supervision combined): inside the range. What v1 did not
   itemize and v1.1 does: the Keel tooling (S-007, S-014), the Phase 2 close and design brief

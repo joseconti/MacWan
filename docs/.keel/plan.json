@@ -2,20 +2,20 @@
   "schema": "keel.plan/1",
   "unit": "AI working hours plus supervision hours",
   "contingency_included": false,
-  "estimated_hours": 160.0,
-  "done_hours": 7.0,
-  "actual_hours": 1.77,
+  "estimated_hours": 160.25,
+  "done_hours": 7.25,
+  "actual_hours": 1.78,
   "remaining_hours": 153.0,
-  "deviation_hours": -5.23,
-  "percent_done": 4.38,
-  "slices_total": 73,
-  "slices_done": 4,
-  "projected_remaining_hours": null,
-  "pace_factor": null,
+  "deviation_hours": -5.47,
+  "percent_done": 4.52,
+  "slices_total": 74,
+  "slices_done": 5,
+  "projected_remaining_hours": 6.12,
+  "pace_factor": 0.04,
   "pace_sample": {
-    "eligible_slices": 0,
-    "eligible_estimated_hours": 0,
-    "eligible_actual_hours": 0
+    "eligible_slices": 1,
+    "eligible_estimated_hours": 0.25,
+    "eligible_actual_hours": 0.01
   },
   "sprints": [
     {
@@ -50,15 +50,15 @@
       "goal": "Spikes, Keel foundation and Phase 2 close",
       "status": "in-progress",
       "path": "docs/sprints/sprint-1.md",
-      "estimated_hours": 22.0,
-      "done_hours": 4.5,
-      "actual_hours": 0.27,
+      "estimated_hours": 22.25,
+      "done_hours": 4.75,
+      "actual_hours": 0.28,
       "remaining_hours": 17.5,
-      "deviation_hours": -4.23,
-      "percent_done": 20.45,
-      "slices_total": 12,
-      "slices_done": 3,
-      "projected_remaining_hours": null,
+      "deviation_hours": -4.47,
+      "percent_done": 21.35,
+      "slices_total": 13,
+      "slices_done": 4,
+      "projected_remaining_hours": 0.7,
       "slices": [
         {
           "id": "S-001",
@@ -197,6 +197,16 @@
             "S-011"
           ],
           "criteria": []
+        },
+        {
+          "id": "S-081",
+          "title": "Record José's setup answers — test-first policy, design system (By PackDesk), issues duty, notification channel, assistant config, chaining, spike downloads, no 16 GB Mac",
+          "status": "done",
+          "hours": 0.25,
+          "actual_hours": 0.01,
+          "actual_source": "measured",
+          "depends_on": [],
+          "criteria": []
         }
       ]
     },
@@ -213,7 +223,7 @@
       "percent_done": 0.0,
       "slices_total": 9,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.8,
       "slices": [
         {
           "id": "S-013",
@@ -353,7 +363,7 @@
       "percent_done": 0.0,
       "slices_total": 9,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.78,
       "slices": [
         {
           "id": "S-022",
@@ -497,7 +507,7 @@
       "percent_done": 0.0,
       "slices_total": 9,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.84,
       "slices": [
         {
           "id": "S-031",
@@ -665,7 +675,7 @@
       "percent_done": 0.0,
       "slices_total": 6,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.48,
       "slices": [
         {
           "id": "S-040",
@@ -771,7 +781,7 @@
       "percent_done": 0.0,
       "slices_total": 8,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.68,
       "slices": [
         {
           "id": "S-046",
@@ -909,7 +919,7 @@
       "percent_done": 0.0,
       "slices_total": 7,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.58,
       "slices": [
         {
           "id": "S-054",
@@ -1032,7 +1042,7 @@
       "percent_done": 0.0,
       "slices_total": 4,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.4,
       "slices": [
         {
           "id": "S-061",
@@ -1105,7 +1115,7 @@
       "percent_done": 0.0,
       "slices_total": 8,
       "slices_done": 0,
-      "projected_remaining_hours": null,
+      "projected_remaining_hours": 0.86,
       "slices": [
         {
           "id": "S-065",

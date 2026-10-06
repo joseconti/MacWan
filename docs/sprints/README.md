@@ -6,7 +6,7 @@
 | Sprint | Goal | Status | Slices done | Estimated h | Remaining h | Done % |
 |---|---|---|---|---|---|---|
 | [0](sprint-0.md) | Phase 1 discovery and base documentation | done | 1/1 | 2.5 | 0 | 100 |
-| [1](sprint-1.md) | Spikes, Keel foundation and Phase 2 close | in-progress | 3/12 | 22 | 17.5 | 20.45 |
+| [1](sprint-1.md) | Spikes, Keel foundation and Phase 2 close | in-progress | 4/13 | 22.25 | 17.5 | 21.35 |
 | [2](sprint-2.md) | Foundations — project skeleton, runtime manager, worker protocol (no UI; runs while Design works) | not-started | 0/9 | 20 | 20 | 0 |
 | [3](sprint-3.md) | Models — catalogue, downloads, conversion, Models screen, design system in code | not-started | 0/9 | 19.5 | 19.5 | 0 |
 | [4](sprint-4.md) | First video — onboarding, MLX engine, T2V/I2V/TI2V, render queue | not-started | 0/9 | 21 | 21 | 0 |
@@ -15,6 +15,6 @@
 | [7](sprint-7.md) | Prompt Assistant, Settings, Diagnostics, updates | not-started | 0/7 | 14.5 | 14.5 | 0 |
 | [8](sprint-8.md) | Character Animate / Replace (experimental, gated by S-005) | not-started | 0/4 | 10 | 10 | 0 |
 | [9](sprint-9.md) | Hardening — accessibility, localization, security, documentation, release preparation | not-started | 0/8 | 21.5 | 21.5 | 0 |
-| **Total** | | | 4/73 | **160** | **153** | 4.38 |
+| **Total** | | | 5/74 | **160.25** | **153** | 4.52 |
 
 Backlog (`deferred.md`): 8 items, 76 h — what a later version would cost, not in the total.

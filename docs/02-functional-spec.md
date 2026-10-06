@@ -226,7 +226,7 @@ See `docs/03-technical-plan.md` and `docs/threat-model.md`.
 | 9 | Prompt-enhance diff sheet | — |
 | 10 | Menu-bar extra (progress, pause, open) | — |
 | 11 | States for every screen: empty, loading, error, unsupported tier, model not installed | one pattern, reused |
-| 12 | App icon, menu-bar icon, document/notification imagery | SVG + PNG |
+| 12 | App icon, menu-bar icon, document/notification imagery, and the "By PackDesk" parent-brand endorsement (D-014) | SVG + PNG |
 
 **No design:** worker, protocol, engines, runtime manager, model manager, catalogue, queue logic,
 persistence, export, build and release scripts.
@@ -255,8 +255,10 @@ See `docs/estimate.md` and the sprint plan in `docs/sprints/` (index: `docs/spri
 
 ## 13. Open questions for the user
 
-1. Test-first policy — `pure-logic` (recommended), `pure-logic + acceptance`, or `none`.
-2. Design system — does a José Conti / MacWan brand identity already exist, or is MacWan founding one?
-3. The *proposed* items above (tier table, window sizes) — confirmed at the Phase 2 gate.
-4. Keel setup: forge-issue duty and interval, issue capture, notification channel, assistant
-   config package, chat chaining. Recorded in `docs/PROGRESS.md` open items.
+Answered on 2026-10-06 (D-013, D-014): test-first policy, design system, issues duty, notification
+channel, chaining. Still open — see `docs/PROGRESS.md` open items:
+
+1. Which assistant tools besides Claude Code get the config package.
+2. PackDesk assets and where "By PackDesk" appears (the design system is MacWan's own, D-014).
+3. The Entry tier without a real 16 GB Mac (D-015), and the other *proposed* items above (tier
+   table, window sizes) — confirmed at the Phase 2 gate.

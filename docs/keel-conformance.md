@@ -4,7 +4,7 @@
 > manifest, the disk and `docs/decisions.md` — never from a previous sweep. Swept 2026-10-06 at
 > position **Phase 2 in progress, sprint 1**. `missing` rows are all due at a LATER phase and name
 > the slice that creates them; nothing applicable at the current position is missing.
-> Totals: 26 present · 26 missing (all due later) · 0 declined · 27 n/a.
+> Totals: 27 present · 36 missing (all due later) · 0 declined · 16 n/a.
 
 | Requirement (MANIFEST Table 1) | State | Where / decision | Notes |
 |---|---|---|---|
@@ -17,7 +17,7 @@
 | Off-machine durability | present | git remote `origin` → github.com/joseconti/MacWan | re-verified this session with `git remote -v` |
 | Clean working tree at every block close | present | `develop` | verified at this session's commit |
 | `CLAUDE.md` + `AGENTS.md` lock | present | both stamped v6.5.0 | equals the running Keel |
-| `GEMINI.md` / Gemini mirror | n/a | condition: only if José works with Gemini CLI | not recorded as a tool in use; asked with the assistant-config question |
+| `GEMINI.md` / Gemini mirror | n/a | condition: only if José works with Gemini CLI — tool list not named yet (open item) | — |
 | `.claude/skills/keel/` + `.agents/skills/keel/` | present | both at v6.5.0 (D-001) | equal to the installed copy's version |
 | `docs/00-competitive-landscape.md` | present | docs/00-competitive-landscape.md | — |
 | `docs/01-discovery.md` incl. `Environment & test drivers` | present | docs/01-discovery.md §10 | preflight added S-008 |
@@ -31,8 +31,8 @@
 | `docs/spec-references/` | n/a | condition: the spec records reference artifacts — none | — |
 | `docs/rubrics/` | n/a | condition: a rubric accepted at §6a — question is put at S-011 | — |
 | `docs/design/references/` | n/a | condition: the user holds rich references — none recorded | — |
-| Assistant rules (per accepted tool) | n/a | condition: `Assistant config:` accepted — question pending with José | — |
-| Assistant subagents | n/a | condition: `Assistant config:` accepted — question pending with José | — |
+| Assistant rules (per accepted tool) | missing | — | due Phase 2 close — S-011 (accepted, D-013; tool list still to be named) |
+| Assistant subagents | missing | — | due Phase 2 close — S-011 (accepted, D-013) |
 | `docs/design/DESIGN-BRIEF.md` | missing | — | due Phase 3 — S-012 |
 | `docs/design/design-handoff/` | missing | — | due Phase 4 start — S-022 |
 | `docs/BUILD-SPEC.md` | missing | — | due Phase 4 — S-022 |
@@ -51,19 +51,19 @@
 | `scripts/keel-doctor` | missing | — | due Phase 5 scaffold — S-014 (source table: technical plan §13) |
 | Build/minify script | n/a | condition: the project ships front-end JS/CSS — it does not (native SwiftUI) | — |
 | `scripts/keel-handoff-verify` | missing | — | due Phase 5 scaffold — S-014 |
-| Single-lane lock | n/a | condition: `Chaining: start` — chaining question pending with José | — |
-| `scripts/keel-tools/<tool>.sh` | n/a | condition: chaining not off/supervised — question pending with José | — |
-| `scripts/keel-continue` | n/a | condition: chaining not off/supervised — question pending with José | — |
+| Single-lane lock | missing | — | due Phase 5 scaffold — S-014 (`Chaining: start`, D-013) |
+| `scripts/keel-tools/<tool>.sh` | missing | — | due Phase 5 scaffold — S-014 (`Chaining: start`, D-013) |
+| `scripts/keel-continue` | missing | — | due Phase 5 scaffold — S-014 (`Chaining: start`, D-013) |
 | `scripts/keel-close` | missing | — | due Phase 5 scaffold — S-014 |
 | `.githooks/post-commit` + `core.hooksPath` | missing | — | due Phase 5 scaffold — S-014 |
 | `scripts/keel-stop-hook` + Stop hook registration | missing | — | due Phase 5 scaffold — S-014 |
 | `scripts/keel-session-pid.sh` | missing | — | due Phase 5 scaffold — S-014 |
-| `scripts/keel-chain-check` | n/a | condition: chaining not off/supervised — question pending with José | — |
-| `Chaining model:` card line | n/a | condition: chaining not off/supervised — question pending with José | — |
-| `Chain verified:` card line | n/a | condition: chaining not off/supervised — question pending with José | — |
-| `.githooks/pre-commit` confidential-data gate | n/a | condition: `Assistant config:` accepted — question pending | the confidential-data check itself runs before every commit regardless |
-| Permission allow-lists (committed) | n/a | condition: `Assistant config:` accepted — question pending | — |
-| CI workflow | n/a | condition: `Assistant config:` accepted — question pending | — |
+| `scripts/keel-chain-check` | missing | — | due Phase 5 scaffold — S-014 (`Chaining: start`, D-013) |
+| `Chaining model:` card line | present | docs/PROGRESS.md — opus (D-013) | — |
+| `Chain verified:` card line | missing | — | due Phase 5 scaffold — S-014 (`Chaining: start`, D-013) |
+| `.githooks/pre-commit` confidential-data gate | missing | — | due Phase 5 scaffold — S-014 (accepted, D-013) |
+| Permission allow-lists (committed) | missing | — | due Phase 5 scaffold — S-014 (accepted, D-013; confirmed with José before committing) |
+| CI workflow | missing | — | due Phase 5 scaffold — S-014 (accepted, D-013) |
 | MCP registration | n/a | condition: the technical plan defines dev MCP servers — it defines none | — |
 | `docs/architecture.md` | missing | — | due Phase 6 — S-070 |
 | `docs/api/`, `docs/usage/`, `docs/reference/` | missing | — | due Phase 6 — S-070 (api/ grows from S-014) |
@@ -83,7 +83,7 @@
 | `docs/.keel/e2e-status.json` | n/a | condition: the card carries an `E2E:` command — it says absent | — |
 | `docs/.keel/e2e-history.jsonl` | n/a | condition: `E2E:` exists — absent | — |
 | `docs/.keel/slices/<n>.json` | n/a | condition: work fanned out over git worktrees — not in use | — |
-| `docs/issues.md` | n/a | condition: the forge's issues were accessed — they were not | — |
+| `docs/issues.md` | n/a | condition: the forge's issues were accessed — not yet; first sweep at the sprint 1 close | — |
 | `docs/old/` | n/a | condition: archiving started — it has not | — |
 | `docs/04-adoption-audit.md` | n/a | condition: adopted projects only — MacWan started with Keel (D-001) | — |
 | Project card — every line of the template | present | docs/PROGRESS.md | lines whose question is unanswered say so explicitly |

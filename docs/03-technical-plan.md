@@ -283,15 +283,15 @@ here if reality differs. Until then they are `TO BUILD`, not available.
   test selects itself. Widening to the whole suite: `project.yml`, any `Package.swift`,
   `Worker/locks/**`, `Resources/catalogue.json`, shared test fixtures, `scripts/build.sh`.
 - Regression rule: every bug fix starts from a test that reproduces it and fails.
-- Test-first policy: `pure-logic` *proposed* — recipe validation, catalogue parsing, the JobQueue
-  state machine, both protocol codecs and tier assignment get their test first. Awaiting José's
-  answer (spec §13).
+- Test-first policy: `pure-logic` (D-013) — recipe validation, catalogue parsing, the JobQueue
+  state machine, both protocol codecs and tier assignment get their test first, seen failing.
+  A test derived from an `AC-nn` or a reproduced bug is never edited to make it pass.
 
 Division of labour — the assistant drives everything except:
 
 | Leg | Tag | Steps for whoever runs it |
 |---|---|---|
-| Spikes on a 16 GB Mac | `HARDWARE` | run `spikes/` scripts on a 16 GB machine; paste the printed table |
+| Entry-tier measurements on a real 16 GB Mac | `HARDWARE` | no such machine exists (D-015): approximated with a memory cap on the 32 GB Mac, figures stay `VERIFY` |
 | Developer ID signing and notarization | `CREDENTIAL` | José installs the certificate and stores the notary profile once; `scripts/notarize.sh` does the rest |
 | Sparkle EdDSA private key | `CREDENTIAL` | José generates and keeps it; only the public key enters the repo |
 | VoiceOver pass | `ASSISTIVE-TECH` | guided loop, one instruction at a time, results recorded per item |
@@ -317,10 +317,11 @@ Detected on José's Mac on 2026-10-06 (Apple M5, 32 GB, macOS 27.0.1, 605 GB fre
 | gitleaks | any recent | optional | missing | `brew install gitleaks` |
 | Free disk for spikes and models | ≥ 200 GB recommended | blocking for S-001…S-003 | 605 GB | — |
 | Developer ID + notary profile | valid | blocking for S-004, S-069 | not checked (José's) | `CREDENTIAL` |
-| A 16 GB Apple Silicon Mac | for Entry-tier measurements | optional | not this machine | second machine, or the figures stay `VERIFY` |
+| A 16 GB Apple Silicon Mac | for Entry-tier measurements | optional | **none available (D-015)** | memory-capped runs on the 32 GB Mac; figures stay `VERIFY` |
 
-Cannot be done on this machine: Entry-tier (16 GB) measurements — the machine has 32 GB. They need
-a second Mac; without one the Entry rows ship as `VERIFY` and the memory guard stays conservative.
+Cannot be done on this machine: Entry-tier (16 GB) measurements — the machine has 32 GB and José
+has no 16 GB Mac (D-015). The Entry rows are approximated with a memory cap, ship as `VERIFY`, and
+the memory guard stays conservative; what to do about the 16 GB minimum is decided at S-011.
 Nothing is installed globally without José's OK on an itemized list (`scripts/keel-doctor --plan`).
 
 ## 14. Version touchpoints

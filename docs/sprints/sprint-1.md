@@ -100,6 +100,14 @@ slices:
     actual_source: measured
     depends_on: [S-011]
     criteria: []
+  - id: S-081
+    title: Record José's setup answers — test-first policy, design system (By PackDesk), issues duty, notification channel, assistant config, chaining, spike downloads, no 16 GB Mac
+    status: done
+    hours: 0.25
+    actual_hours: 0.01
+    actual_source: measured
+    depends_on: []
+    criteria: []
 ---
 
 # Sprint 1 — Spikes, Keel foundation and Phase 2 close
