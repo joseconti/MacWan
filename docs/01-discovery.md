@@ -1,6 +1,6 @@
 # Discovery — MacWan
 
-> Phase 1. Status: **drafted 2026-10-06, pending José's confirmation** of the open questions in §9.
+> Phase 1. Status: **confirmed by José 2026-10-06** — every §9 default accepted (D-008).
 > Research inputs: `docs/research/wan-video-ecosystem.md`, `docs/research/apple-silicon-runtime.md`,
 > `docs/research/ai-assistant-cli.md`, `docs/00-competitive-landscape.md`.
 
@@ -76,7 +76,7 @@ pick a task, get a video — with the right model for your Mac chosen and instal
 ## 6. Internationalization and docs language
 
 - Product base language **English**; built localization-ready from line one (String Catalogs,
-  `.xcstrings`). Proposed shipped locales v1: **English, Spanish, Catalan** (José supports these).
+  `.xcstrings`). Shipped locales v1: **English, Spanish, Catalan** (D-008).
 - Prompts can be typed in any language; the assistant can translate to EN/ZH.
 - `docs/` in **English** (Keel token-economy default, José's explicit request). Conversation in Spanish.
 
@@ -90,10 +90,10 @@ WCAG 2.2 AA principles applied to the native UI.
 
 ## 8. Website intent and budget
 
-- Website (Keel Phase 8): **proposed yes** (product site at a later date) — pending José.
-- Client budget: **proposed no** (José's own product) — pending José.
+- Website (Keel Phase 8): **yes**, product site at a later date (D-008).
+- Client budget: **no** — José's own product (D-008).
 
-## 9. Open questions for José (each has a recommended default)
+## 9. Questions put to José — all defaults accepted 2026-10-06 (D-008)
 
 1. Minimum Mac: Apple Silicon + **16 GB**, macOS 14? *(default yes)*
 2. Distribution: Developer ID DMG + Sparkle, not App Store? *(default yes)*

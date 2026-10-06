@@ -51,3 +51,10 @@
 - Why: José's explicit request; Keel token-economy default.
 - Alternatives rejected (and why): Spanish docs — José asked for English.
 - Supersedes: none
+
+## D-008 — Phase 1 answers: all recommended defaults accepted
+- Date / phase: 2026-10-06 / Phase 1 close
+- Decision: José answered "todo correcto" to docs/01-discovery.md §9, accepting every default: (1) minimum Mac Apple Silicon with 16 GB, macOS 14; (2) Developer ID notarized DMG + Sparkle, outside the App Store (confirms D-005); (3) MacWan's own licence decided later, before Phase 7; (4) cloud engine in v1.x, not v1; (5) locales EN, ES, CA; (6) product website later (Phase 8 = yes); (7) Keel automatic mode on. No notification channel was named; client budget: no.
+- Why: José's explicit confirmation in the project thread.
+- Alternatives rejected (and why): see docs/01-discovery.md §9 options.
+- Supersedes: none (confirms D-005)
